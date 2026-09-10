@@ -1,0 +1,181 @@
+/* ======================================================================
+   Coconut VA — Colors & Type tokens
+   Brand: friendly, professional remote-staffing brand. Navy + green core,
+   pastel "talent halo" accents, soft cream surfaces.
+   ====================================================================== */
+
+/* ---------- Fonts (substitution: Coconut VA's site uses sans similar to
+   Manrope / Plus Jakarta Sans. We use Manrope as the closest free match.
+   Replace with the real brand font if Coconut shares it.) ---------- */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+:root {
+  /* ---------- Core brand ---------- */
+  --cv-navy-900: #07152B;   /* deepest, footer text on cream */
+  --cv-navy-800: #0B1E3F;   /* primary brand navy — logo, headlines */
+  --cv-navy-700: #122A52;   /* dark UI surfaces */
+  --cv-navy-600: #1E3A6B;
+  --cv-navy-500: #2C4F8C;
+
+  --cv-green-700: #3F9A6E;
+  --cv-green-600: #50B080;  /* primary accent — process icons, success */
+  --cv-green-500: #6EC79A;
+  --cv-green-200: #C0E5D2;  /* soft mint — icon background halos */
+  --cv-green-100: #DEF2E6;
+
+  /* ---------- Talent halos (saturated solid avatar backgrounds) ---------- */
+  --cv-halo-teal:   #2EC4C0;
+  --cv-halo-purple: #7B3FE4;
+  --cv-halo-magenta:#C13EC1;
+  --cv-halo-cyan:   #2AB7F0;
+  --cv-halo-orange: #F39A1F;
+  --cv-halo-yellow: #F4C430;
+  --cv-halo-red:    #E54B4B;
+
+  /* ---------- Pastel gradient halos (used behind talent portraits) ---------- */
+  --cv-pastel-mint: #BFE9CF;
+  --cv-pastel-sky:  #C9E6F4;
+  --cv-pastel-lav:  #DCD2F2;
+  --cv-pastel-peach:#F8DEC8;
+  --cv-pastel-cream:#FAF6EE;
+
+  /* ---------- Surfaces ---------- */
+  --cv-bg:          #FFFFFF;
+  --cv-bg-soft:     #F7F7F4;  /* warm off-white sections */
+  --cv-bg-cream:    #FAF6EE;
+  --cv-bg-mint:     #EAF5EE;
+  --cv-bg-navy:     #0A1A33;  /* footer/CTA dark */
+
+  /* ---------- Text ---------- */
+  --cv-fg-1: #07152B;          /* primary copy */
+  --cv-fg-2: #2A3A55;          /* secondary copy */
+  --cv-fg-3: #5C6B85;          /* muted/meta */
+  --cv-fg-inverse: #FFFFFF;
+  --cv-fg-inverse-2: #C8D2E2;
+
+  /* ---------- Borders & lines ---------- */
+  --cv-border:      #E6E8EE;
+  --cv-border-soft: #F0F1F4;
+  --cv-border-navy: rgba(255,255,255,0.10);
+
+  /* ---------- Semantic ---------- */
+  --cv-success: #50B080;
+  --cv-warning: #F4C430;
+  --cv-error:   #E54B4B;
+  --cv-info:    #2AB7F0;
+
+  /* ---------- Typography stacks ---------- */
+  --cv-font-display: "Manrope", "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --cv-font-body:    "Manrope", "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --cv-font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---------- Spacing scale (4-pt) ---------- */
+  --cv-sp-1: 4px;
+  --cv-sp-2: 8px;
+  --cv-sp-3: 12px;
+  --cv-sp-4: 16px;
+  --cv-sp-5: 20px;
+  --cv-sp-6: 24px;
+  --cv-sp-8: 32px;
+  --cv-sp-10: 40px;
+  --cv-sp-12: 48px;
+  --cv-sp-16: 64px;
+  --cv-sp-20: 80px;
+  --cv-sp-24: 96px;
+
+  /* ---------- Radii — generous, friendly ---------- */
+  --cv-radius-sm: 8px;
+  --cv-radius-md: 14px;
+  --cv-radius-lg: 20px;
+  --cv-radius-xl: 28px;
+  --cv-radius-2xl: 36px;
+  --cv-radius-pill: 999px;
+
+  /* ---------- Shadows — soft, low-spread ---------- */
+  --cv-shadow-xs: 0 1px 2px rgba(7, 21, 43, 0.05);
+  --cv-shadow-sm: 0 4px 12px rgba(7, 21, 43, 0.06);
+  --cv-shadow-md: 0 10px 28px rgba(7, 21, 43, 0.08);
+  --cv-shadow-lg: 0 20px 48px rgba(7, 21, 43, 0.12);
+  --cv-shadow-card: 0 6px 20px rgba(7, 21, 43, 0.06), 0 1px 0 rgba(7, 21, 43, 0.03);
+  --cv-shadow-pop: 0 16px 40px rgba(11, 30, 63, 0.18);
+
+  /* ---------- Motion ---------- */
+  --cv-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --cv-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --cv-dur-fast: 140ms;
+  --cv-dur-base: 220ms;
+  --cv-dur-slow: 420ms;
+}
+
+/* ============================ Base type ============================ */
+html { font-family: var(--cv-font-body); color: var(--cv-fg-1); -webkit-font-smoothing: antialiased; }
+
+.cv-display-1 {
+  font-family: var(--cv-font-display);
+  font-weight: 800;
+  font-size: clamp(48px, 6.6vw, 88px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--cv-navy-800);
+  text-wrap: balance;
+}
+.cv-display-2 {
+  font-family: var(--cv-font-display);
+  font-weight: 800;
+  font-size: clamp(36px, 4.8vw, 64px);
+  line-height: 1.06;
+  letter-spacing: -0.022em;
+  color: var(--cv-navy-800);
+  text-wrap: balance;
+}
+.cv-h1 { font-family: var(--cv-font-display); font-weight: 800; font-size: 48px; line-height: 1.1;  letter-spacing: -0.02em; color: var(--cv-navy-800); }
+.cv-h2 { font-family: var(--cv-font-display); font-weight: 700; font-size: 36px; line-height: 1.15; letter-spacing: -0.018em; color: var(--cv-navy-800); }
+.cv-h3 { font-family: var(--cv-font-display); font-weight: 700; font-size: 28px; line-height: 1.2;  letter-spacing: -0.014em; color: var(--cv-navy-800); }
+.cv-h4 { font-family: var(--cv-font-display); font-weight: 700; font-size: 22px; line-height: 1.3;  letter-spacing: -0.01em;  color: var(--cv-navy-800); }
+.cv-h5 { font-family: var(--cv-font-display); font-weight: 700; font-size: 18px; line-height: 1.35; color: var(--cv-navy-800); }
+
+.cv-eyebrow {
+  font-family: var(--cv-font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cv-green-700);
+}
+
+.cv-lede {
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--cv-fg-2);
+  font-weight: 500;
+  text-wrap: pretty;
+}
+.cv-body  { font-size: 16px; line-height: 1.6; color: var(--cv-fg-2); font-weight: 500; }
+.cv-body-sm { font-size: 14px; line-height: 1.55; color: var(--cv-fg-3); font-weight: 500; }
+.cv-meta { font-size: 12px; line-height: 1.4; color: var(--cv-fg-3); font-weight: 600; letter-spacing: 0.02em; }
+
+.cv-mono { font-family: var(--cv-font-mono); font-size: 13px; }
+
+/* Number / stat — used in dashboards & hero metrics */
+.cv-stat {
+  font-family: var(--cv-font-display);
+  font-weight: 800;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--cv-navy-800);
+}
+
+/* Sticker — small chip used for pricing badges */
+.cv-sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: var(--cv-radius-pill);
+  background: var(--cv-green-100);
+  color: var(--cv-green-700);
+  letter-spacing: 0.02em;
+}
