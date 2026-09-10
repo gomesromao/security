@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Security Essentials Course — Coconut</title>
+<title>Security Essentials Course | Coconut</title>
 <meta name="description" content="A six-step security awareness course for Coconut virtual professionals. About twenty minutes, at your own pace.">
 <link rel="icon" href="../assets/logo-navy.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -133,12 +133,14 @@
   .mail-body p { margin: 0 0 12px; }
 
   .hot {
-    cursor: pointer; border-radius: 5px; padding: 1px 3px;
-    background: rgba(244, 196, 48, 0.16);
-    box-shadow: inset 0 -2px 0 rgba(244, 196, 48, 0.55);
-    transition: background var(--cv-dur-fast) var(--cv-ease);
+    cursor: pointer; border-radius: 5px; padding: 2px 4px;
+    background: rgba(244, 196, 48, 0.26);
+    box-shadow: inset 0 -2px 0 rgba(244, 196, 48, 0.75);
+    transition: background var(--cv-dur-fast) var(--cv-ease),
+                box-shadow var(--cv-dur-fast) var(--cv-ease);
   }
-  .hot:hover { background: rgba(244, 196, 48, 0.34); }
+  .hot:hover { background: rgba(244, 196, 48, 0.5); box-shadow: inset 0 -2px 0 #E0A800; }
+  .hot:focus-visible { outline: 3px solid var(--cv-green-500); outline-offset: 2px; }
   .hot.is-found {
     background: var(--cv-green-100);
     box-shadow: inset 0 -2px 0 var(--cv-green-600);
@@ -252,7 +254,46 @@
     align-items: center; justify-content: space-between;
     margin-top: var(--cv-sp-8);
   }
-  .lock-note { font-size: 13.5px; font-weight: 600; color: var(--cv-fg-3); }
+  .stepnav-end {
+    display: flex; align-items: center; gap: 14px;
+    flex-wrap: wrap; justify-content: flex-end;
+  }
+  .lock-note {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 13px; font-weight: 700; line-height: 1.35;
+    color: #8A6A08; background: #FDF3D6;
+    padding: 8px 14px; border-radius: 999px;
+  }
+  .lock-note:empty { display: none; }
+
+  .ex-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .hint {
+    font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+    padding: 7px 13px; border-radius: 999px;
+    background: transparent; color: var(--cv-fg-3);
+    border: 1.5px dashed var(--cv-border);
+    transition: color var(--cv-dur-fast) var(--cv-ease),
+                border-color var(--cv-dur-fast) var(--cv-ease);
+  }
+  .hint:hover { color: var(--cv-navy-800); border-color: var(--cv-navy-500); }
+  .hint[hidden] { display: none; }
+
+  @media (max-width: 560px) {
+    .stage { padding-block: var(--cv-sp-8); }
+    .panel { padding: 20px; border-radius: var(--cv-radius-lg); }
+    .stepnav { flex-direction: column-reverse; align-items: stretch; gap: 10px; margin-top: var(--cv-sp-6); }
+    .stepnav-end { flex-direction: column; align-items: stretch; gap: 10px; }
+    .stepnav .btn { width: 100%; }
+    .lock-note { justify-content: center; text-align: center; }
+    .ex-head { gap: 10px; }
+    .ex-meta { width: 100%; justify-content: space-between; }
+    .progress-rail .wrap { gap: var(--cv-sp-4); padding-block: 12px; }
+    .idea { padding: 14px; gap: 12px; }
+    .step-head { margin-bottom: var(--cv-sp-6); }
+    .mail-row { padding: 11px 13px; }
+    .mail-body { padding: 15px 13px; }
+    .checks .check, .opt { padding: 13px 14px; }
+  }
 
   /* ------------------------------------------------------------- intro */
   .intro-list { display: grid; gap: 10px; margin-top: var(--cv-sp-6); }
@@ -324,7 +365,7 @@
       <span class="brand-label">Security Essentials</span>
     </a>
     <div class="header-actions">
-      <a class="btn btn-ghost btn-sm" href="../">One-page summary</a>
+      <a class="btn btn-ghost btn-sm hide-sm" href="../">One-page summary</a>
       <button class="btn btn-ghost btn-sm" id="btn-reset" type="button">Start over</button>
     </div>
   </div>
@@ -348,8 +389,8 @@
         <h1 class="display">Six steps. About <span class="hl">twenty minutes.</span></h1>
         <p class="lede measure" style="margin-inline:auto;">
           This is the practice version of the security ground rules. Each step is a short
-          read followed by one thing to try &mdash; a suspicious email, an urgent chat, a
-          nearly-right web address &mdash; so the habit is already there when it counts.
+          read followed by one thing to try: a suspicious email, an urgent chat, a
+          nearly-right web address. The habit is already there when it counts.
         </p>
       </div>
 
@@ -395,21 +436,21 @@
           <div class="idea">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg></div>
             <div>
-              <h4 class="h5">Phishing &mdash; email</h4>
+              <h4 class="h5">Phishing (email)</h4>
               <p class="body-sm">A spoofed or lookalike domain, a reason to hurry, and a link to a login page that is not the real one. The page can be a pixel-perfect copy; the address never is.</p>
             </div>
           </div>
           <div class="idea">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message"/></svg></div>
             <div>
-              <h4 class="h5">Smishing &mdash; SMS and chat apps</h4>
-              <p class="body-sm">"Your payment failed", "your package is held", "update your bank details" &mdash; almost always with a shortened link, from a number you do not know.</p>
+              <h4 class="h5">Smishing (SMS and chat apps)</h4>
+              <p class="body-sm">"Your payment failed", "your package is held", "update your bank details". Almost always with a shortened link, from a number you do not know.</p>
             </div>
           </div>
           <div class="idea">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg></div>
             <div>
-              <h4 class="h5">Vishing &mdash; phone calls</h4>
+              <h4 class="h5">Vishing (phone calls)</h4>
               <p class="body-sm">Someone friendly and unhurried claiming to be IT, the bank, or a client, walking you toward reading out a code or approving a prompt on your phone.</p>
             </div>
           </div>
@@ -433,7 +474,7 @@
           <span class="chip chip-error">"Skip the usual process"</span>
         </div>
         <p class="body-sm" style="margin-top: var(--cv-sp-5);">
-          Bad grammar is no longer a reliable tell &mdash; plenty of these are perfectly
+          Bad grammar is no longer a reliable tell. Plenty of these are perfectly
           written. The pressure to act quickly is the signal that survives.
         </p>
       </div>
@@ -444,11 +485,15 @@
             <span class="sticker">Try it</span>
             <h3 class="h4">Spot the red flags</h3>
           </div>
-          <span class="counter" id="c1">0 of 5 found</span>
+          <div class="ex-meta">
+            <button class="hint" type="button" data-hint="flags">Stuck? Reveal one</button>
+            <span class="counter" id="c1">0 of 5 found</span>
+          </div>
         </div>
-        <p class="body-sm" style="margin-bottom: var(--cv-sp-5);">
-          This email landed in a work inbox this morning. Click on everything that should
-          stop you from trusting it &mdash; there are five.
+        <p class="body" style="margin-bottom: var(--cv-sp-5);">
+          This email landed in a work inbox this morning.
+          <b>Click the parts of it that should stop you trusting it.</b> There are five,
+          and each one explains itself as you find it.
         </p>
 
         <div class="mail">
@@ -458,7 +503,7 @@
           </div>
           <div class="mail-row">
             <span class="lbl">Subject</span>
-            <span class="hot" data-flag="2" data-note="Manufactured urgency in the subject line. Real security notices inform you; they do not shout a deadline at you.">URGENT: Account suspension &mdash; immediate action required</span>
+            <span class="hot" data-flag="2" data-note="Manufactured urgency in the subject line. Real security notices inform you; they do not shout a deadline at you.">URGENT: Account suspension, immediate action required</span>
           </div>
           <div class="mail-body">
             <p><span class="hot" data-flag="3" data-note="A generic greeting. A system that genuinely holds your account knows your name.">Dear User</span>,</p>
@@ -478,14 +523,17 @@
             <b>All five.</b> One more worth noticing: the message opens as "IT Support" and
             signs off as "The Security Team". Real internal mail rarely changes identity
             halfway through. When something scores this many flags, the safe move is to not
-            reply, not click, and report it &mdash; deleting it quietly means the next person
-            gets the same email with no warning.
+            reply, not click, and report it. Deleting it quietly means the next person gets
+            the same email with no warning.
           </div>
         </div>
 
         <div class="stepnav">
           <button class="btn btn-ghost" data-back type="button">&larr; Back</button>
-          <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          <div class="stepnav-end">
+            <span class="lock-note"></span>
+            <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          </div>
         </div>
       </div>
     </section>
@@ -541,7 +589,7 @@
           <div>
             <b>The one rule that covers all of it:</b> verify out-of-band. Confirm the
             request on a channel the request did not come from, using contact details you
-            already had &mdash; never the number or address inside the message.
+            already had. Never the number or address inside the message.
           </div>
         </div>
       </div>
@@ -558,7 +606,7 @@
         <div class="mail" style="margin-bottom: var(--cv-sp-6);">
           <div class="mail-row" style="background: var(--cv-bg-soft);">
             <span class="lbl">Chat</span>
-            <span><b>Client &mdash; new number</b> &middot; <span class="body-sm" style="display:inline;">today, 4:41 pm</span></span>
+            <span><b>Client (new number)</b> &middot; <span class="body-sm" style="display:inline;">today, 4:41 pm</span></span>
           </div>
           <div class="mail-body">
             <p>"Hi! It's me, I'm using my personal number, long story. I'm stuck in
@@ -566,24 +614,27 @@
             <p>I need 5 gift cards at $200 each for a client thank-you and I need them in
             the next 20 minutes. Buy them and send me photos of the codes, I'll get you
             reimbursed on Monday.</p>
-            <p>Please don't mention it in the group &mdash; it's meant to be a surprise. Thanks
+            <p>Please don't mention it in the group, it's meant to be a surprise. Thanks
             for always coming through!"</p>
           </div>
         </div>
 
         <p class="meta" style="margin-bottom: var(--cv-sp-4);">What do you do?</p>
         <div class="options" data-mcq="2" data-correct="c">
-          <button class="opt" data-key="a" type="button"><span class="key">A</span><span>Buy the cards &mdash; it is the client, and they said it is urgent.</span></button>
+          <button class="opt" data-key="a" type="button"><span class="key">A</span><span>Buy the cards. It is the client, and they said it is urgent.</span></button>
           <button class="opt" data-key="b" type="button"><span class="key">B</span><span>Reply to the message and ask them to confirm the request by email first.</span></button>
           <button class="opt" data-key="c" type="button"><span class="key">C</span><span>Call the client on the number you already have, and tell your Coconut contact.</span></button>
-          <button class="opt" data-key="d" type="button"><span class="key">D</span><span>Ignore it and carry on &mdash; if it is real, they will follow up.</span></button>
+          <button class="opt" data-key="d" type="button"><span class="key">D</span><span>Ignore it and carry on. If it is real, they will follow up.</span></button>
         </div>
 
         <div class="feedback" id="fb2"><span></span><div></div></div>
 
         <div class="stepnav">
           <button class="btn btn-ghost" data-back type="button">&larr; Back</button>
-          <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          <div class="stepnav-end">
+            <span class="lock-note"></span>
+            <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          </div>
         </div>
       </div>
     </section>
@@ -612,7 +663,7 @@
           <div class="idea">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-refresh"/></svg></div>
             <div>
-              <h4 class="h5">Never reuse &mdash; not even a variation</h4>
+              <h4 class="h5">Never reuse, not even a variation</h4>
               <p class="body-sm">Reuse turns one forgotten breach into all of your accounts at once. Adding a number at the end does not count as a different password.</p>
             </div>
           </div>
@@ -627,7 +678,7 @@
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lock"/></svg></div>
             <div>
               <h4 class="h5">Two-factor on everything, email first</h4>
-              <p class="body-sm">Email is the master key &mdash; whoever holds it can reset every other account. An app-based code or a security key is stronger than SMS.</p>
+              <p class="body-sm">Email is the master key. Whoever holds it can reset every other account. An app-based code or a security key is stronger than SMS.</p>
             </div>
           </div>
           <div class="idea">
@@ -650,7 +701,7 @@
         </div>
         <p class="body-sm" style="margin-bottom: var(--cv-sp-5);">
           Tap each one to see how it actually holds up. Never type a real password into a
-          strength checker &mdash; including this one.
+          strength checker, including this one.
         </p>
 
         <div class="pw-grid" id="pw-grid">
@@ -696,7 +747,7 @@
         </p>
 
         <div class="options" data-mcq="3" data-correct="c">
-          <button class="opt" data-key="a" type="button"><span class="key">A</span><span>Read out the code &mdash; being locked out would stop the whole day's work.</span></button>
+          <button class="opt" data-key="a" type="button"><span class="key">A</span><span>Read out the code. Being locked out would stop the whole day's work.</span></button>
           <button class="opt" data-key="b" type="button"><span class="key">B</span><span>Ask them some questions first, and share the code if their answers check out.</span></button>
           <button class="opt" data-key="c" type="button"><span class="key">C</span><span>Hang up, do not approve anything, and report the call to your Coconut contact.</span></button>
           <button class="opt" data-key="d" type="button"><span class="key">D</span><span>Give them a wrong code to see how they react.</span></button>
@@ -706,7 +757,10 @@
 
         <div class="stepnav">
           <button class="btn btn-ghost" data-back type="button">&larr; Back</button>
-          <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          <div class="stepnav-end">
+            <span class="lock-note"></span>
+            <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          </div>
         </div>
       </div>
     </section>
@@ -717,8 +771,8 @@
         <p class="eyebrow">Step 4 of 6</p>
         <h2 class="h2">Devices, browsers &amp; downloads</h2>
         <p class="lede">
-          Your work machine is a client's office. Whoever sits at it &mdash; or whatever gets
-          installed on it &mdash; is inside their business.
+          Your work machine is a client's office. Whoever sits at it, or whatever gets
+          installed on it, is inside their business.
         </p>
       </div>
 
@@ -743,7 +797,7 @@
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-droplet"/></svg></div>
             <div>
               <h4 class="h5">Trusted sites get compromised too</h4>
-              <p class="body-sm">Attackers infect the sites a group of people visit anyway, then wait. A familiar site is not proof of safety &mdash; what the site asks you to do is the signal.</p>
+              <p class="body-sm">Attackers infect the sites a group of people visit anyway, then wait. A familiar site is not proof of safety. What the site asks you to do is the signal.</p>
             </div>
           </div>
           <div class="idea">
@@ -769,17 +823,20 @@
             <span class="sticker">Try it</span>
             <h3 class="h4">Which of these should you not sign in to?</h3>
           </div>
-          <span class="counter" id="c4">0 of 3 found</span>
+          <div class="ex-meta">
+            <button class="hint" type="button" data-hint="urls">Stuck? Reveal one</button>
+            <span class="counter" id="c4">0 of 3 found</span>
+          </div>
         </div>
-        <p class="body-sm" style="margin-bottom: var(--cv-sp-5);">
-          Six addresses, three of them fake. Click the ones you would refuse to enter a
-          password into.
+        <p class="body" style="margin-bottom: var(--cv-sp-5);">
+          <b>Click the addresses you would refuse to type a password into.</b> Three of
+          these six are fake.
         </p>
 
         <div class="urls" id="url-grid">
           <button class="url" type="button" data-bad="0">
             <span class="site">Email</span><code>https://accounts.google.com</code>
-            <span class="note">Genuine &mdash; this is the real domain. Flagging it would mean losing time on a safe address.</span>
+            <span class="note">Genuine. This is the real domain, and flagging it would mean losing time on a safe address.</span>
           </button>
           <button class="url" type="button" data-bad="1">
             <span class="site">Payments</span><code>https://paypa1-support.com</code>
@@ -787,7 +844,7 @@
           </button>
           <button class="url" type="button" data-bad="0">
             <span class="site">Files</span><code>https://www.dropbox.com</code>
-            <span class="note">Genuine &mdash; the real domain, with nothing appended to it.</span>
+            <span class="note">Genuine. The real domain, with nothing appended to it.</span>
           </button>
           <button class="url" type="button" data-bad="1">
             <span class="site">Software update</span><code>https://micros0ft-update.net</code>
@@ -795,11 +852,11 @@
           </button>
           <button class="url" type="button" data-bad="0">
             <span class="site">Social</span><code>https://business.facebook.com</code>
-            <span class="note">Genuine &mdash; a real subdomain of the real site. Subdomains before the main domain are normal.</span>
+            <span class="note">Genuine. A real subdomain of the real site, and subdomains before the main domain are normal.</span>
           </button>
           <button class="url" type="button" data-bad="1">
             <span class="site">Shopping</span><code>https://arnazon-billing.com</code>
-            <span class="note">Fake. "rn" reads as "m" at a glance &mdash; one of the oldest tricks there is, and still one of the most effective.</span>
+            <span class="note">Fake. "rn" reads as "m" at a glance, one of the oldest tricks there is and still one of the most effective.</span>
           </button>
         </div>
 
@@ -807,7 +864,7 @@
           <span>&#10003;</span>
           <div>
             <b>All three.</b> Notice that the padlock and "https" appeared on every one of
-            them &mdash; a certificate proves the connection is encrypted, not that the site is
+            them. A certificate proves the connection is encrypted, not that the site is
             honest. When an address arrives in a message, the safe habit is to ignore it and
             open the site from your own bookmark instead.
           </div>
@@ -815,7 +872,10 @@
 
         <div class="stepnav">
           <button class="btn btn-ghost" data-back type="button">&larr; Back</button>
-          <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          <div class="stepnav-end">
+            <span class="lock-note"></span>
+            <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          </div>
         </div>
       </div>
     </section>
@@ -826,8 +886,8 @@
         <p class="eyebrow">Step 5 of 6</p>
         <h2 class="h2">Client data &amp; confidentiality</h2>
         <p class="lede">
-          Customer lists, invoices, ID documents, contact details &mdash; that information
-          belongs to the client, wherever it happens to be sitting. Including on your desktop.
+          Customer lists, invoices, ID documents, contact details. All of it belongs to the
+          client, wherever it happens to be sitting. Including on your desktop.
         </p>
       </div>
 
@@ -838,7 +898,7 @@
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg></div>
             <div>
               <h4 class="h5">Know what counts as personal data</h4>
-              <p class="body-sm">Names, emails, phone numbers, addresses, payment details, ID and tax numbers, health information &mdash; and less obvious things like IP addresses and device identifiers.</p>
+              <p class="body-sm">Names, emails, phone numbers, addresses, payment details, ID and tax numbers, health information, plus less obvious things like IP addresses and device identifiers.</p>
             </div>
           </div>
           <div class="idea">
@@ -851,7 +911,7 @@
           <div class="idea">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bot"/></svg></div>
             <div>
-              <h4 class="h5">Approved tools only &mdash; AI included</h4>
+              <h4 class="h5">Approved tools only, AI included</h4>
               <p class="body-sm">Pasting a customer list, a contract or internal documents into an unapproved chatbot is a disclosure to a third party. Check before you use a new tool, not after.</p>
             </div>
           </div>
@@ -887,7 +947,7 @@
         <div id="sort-list">
           <div class="sort-row" data-answer="system">
             <div>
-              <h4 class="h5">A customer export &mdash; 4,000 names and email addresses</h4>
+              <h4 class="h5">A customer export with 4,000 names and email addresses</h4>
               <p class="body-sm">You generated it to clean up a mailing list.</p>
             </div>
             <div class="sort-choices">
@@ -908,7 +968,7 @@
               <button type="button" data-pick="manager">Password manager</button>
               <button type="button" data-pick="delete">Delete it</button>
             </div>
-            <p class="why">Credentials belong in a password manager &mdash; never in a chat thread, a spreadsheet or a notes app. Better still, ask to be added as your own named user instead of sharing one login.</p>
+            <p class="why">Credentials belong in a password manager, never in a chat thread, a spreadsheet or a notes app. Better still, ask to be added as your own named user instead of sharing one login.</p>
           </div>
 
           <div class="sort-row" data-answer="delete">
@@ -943,14 +1003,17 @@
           <div>
             <b>That is the pattern.</b> Client data lives in client systems, credentials live
             in a password manager, and anything else is a copy waiting to become a problem.
-            If you are unsure where something belongs, ask before you save it &mdash; that
-            question is never unwelcome.
+            If you are unsure where something belongs, ask before you save it. That question
+            is never unwelcome.
           </div>
         </div>
 
         <div class="stepnav">
           <button class="btn btn-ghost" data-back type="button">&larr; Back</button>
-          <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          <div class="stepnav-end">
+            <span class="lock-note"></span>
+            <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          </div>
         </div>
       </div>
     </section>
@@ -994,7 +1057,7 @@
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-megaphone"/></svg></div>
             <div>
               <h4 class="h5">Say it out loud, immediately</h4>
-              <p class="body-sm">A login alert you do not recognise, a link you clicked and regretted, a message you did not send. Tell your Coconut contact right away &mdash; before you are sure, not after.</p>
+              <p class="body-sm">A login alert you do not recognise, a link you clicked and regretted, a message you did not send. Tell your Coconut contact right away, before you are sure rather than after.</p>
             </div>
           </div>
           <div class="idea">
@@ -1023,7 +1086,7 @@
 
         <div class="options" data-mcq="6" data-correct="c">
           <button class="opt" data-key="a" type="button"><span class="key">A</span><span>Delete the messages quickly, so as few customers as possible see them.</span></button>
-          <button class="opt" data-key="b" type="button"><span class="key">B</span><span>Change your password and get on with the day &mdash; it is handled.</span></button>
+          <button class="opt" data-key="b" type="button"><span class="key">B</span><span>Change your password and get on with the day. It is handled.</span></button>
           <button class="opt" data-key="c" type="button"><span class="key">C</span><span>Tell your Coconut contact and the client straight away, then secure the account together.</span></button>
           <button class="opt" data-key="d" type="button"><span class="key">D</span><span>Wait a few hours to be certain it was not something you did by mistake.</span></button>
         </div>
@@ -1045,7 +1108,7 @@
         </p>
 
         <div class="checks" id="checks">
-          <button class="check" type="button"><span class="box">&#10003;</span><span><b>Stop, and delete nothing.</b> Do not send, approve or clean anything up. Screenshot what you see first &mdash; that record is what makes the cleanup possible.</span></button>
+          <button class="check" type="button"><span class="box">&#10003;</span><span><b>Stop, and delete nothing.</b> Do not send, approve or clean anything up. Screenshot what you see first, because that record is what makes the cleanup possible.</span></button>
           <button class="check" type="button"><span class="box">&#10003;</span><span><b>Change the password and sign out everywhere.</b> Ending all active sessions is what actually removes an intruder; a new password alone often does not.</span></button>
           <button class="check" type="button"><span class="box">&#10003;</span><span><b>Reset two-factor and review connected apps.</b> Check for recovery emails, phone numbers or third-party apps that were added without you.</span></button>
           <button class="check" type="button"><span class="box">&#10003;</span><span><b>Report it with times and screenshots.</b> Your Coconut contact and the client, in the same hour, even if the picture is still incomplete.</span></button>
@@ -1053,7 +1116,10 @@
 
         <div class="stepnav">
           <button class="btn btn-ghost" data-back type="button">&larr; Back</button>
-          <button class="btn btn-primary" data-next type="button" disabled>Finish &rarr;</button>
+          <div class="stepnav-end">
+            <span class="lock-note"></span>
+            <button class="btn btn-primary" data-next type="button" disabled>Finish &rarr;</button>
+          </div>
         </div>
       </div>
     </section>
@@ -1115,7 +1181,7 @@
         state.done = saved.done || {};
         state.tasks = saved.tasks || {};
       }
-    } catch (e) { /* private mode, blocked storage — carry on without it */ }
+    } catch (e) { /* private mode, blocked storage: carry on without it */ }
   }
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
@@ -1145,7 +1211,13 @@
     return (GATES[n] || []).every(taskDone);
   }
 
+  var HINT_TASK = { flags: "flags", urls: "urls" };
+
   function refreshGates() {
+    // A disabled button with no explanation reads as broken. Always say why.
+    Array.prototype.forEach.call(document.querySelectorAll("[data-hint]"), function (b) {
+      b.hidden = taskDone(HINT_TASK[b.getAttribute("data-hint")]);
+    });
     for (var n = 1; n <= TOTAL; n++) {
       var screen = document.getElementById("screen-" + n);
       if (!screen) continue;
@@ -1254,19 +1326,19 @@
       correct: "c",
       a: ["bad", "&#10007;", "<b>This is how the money leaves.</b> Gift card codes are untraceable the moment they are sent, which is exactly why they are asked for. A genuine client also has no reason to route a purchase through you with 20 minutes' notice."],
       b: ["bad", "&#10007;", "<b>Close, but it verifies nothing.</b> You would be asking the sender to confirm that the sender is genuine. Whoever wrote the message can just as easily send an email from a lookalike address."],
-      c: ["good", "&#10003;", "<b>Correct.</b> A voice call on the number you already had breaks the attack completely &mdash; and telling your Coconut contact means the same message can be recognised if it reaches a colleague next. Notice every ingredient was here: authority, urgency, a new channel, secrecy, and an untraceable payment."],
+      c: ["good", "&#10003;", "<b>Correct.</b> A voice call on the number you already had breaks the attack completely, and telling your Coconut contact means the same message can be recognised if it reaches a colleague next. Notice every ingredient was here: authority, urgency, a new channel, secrecy, and an untraceable payment."],
       d: ["bad", "&#10007;", "<b>Safer than paying, but not enough.</b> Ignoring it protects you and leaves everyone else exposed. If it was genuine the client is still waiting, and if it was not, nobody knows the attempt happened."]
     },
     3: {
       correct: "c",
       a: ["bad", "&#10007;", "<b>That code is the account.</b> The caller is almost certainly sitting on the login page right now, waiting for you to read out the one thing that lets them in. The lockout they described does not exist."],
       b: ["bad", "&#10007;", "<b>The questions will not save you.</b> Anyone who knows your name and your tools can pass an informal check. The request itself is the answer: no genuine process ever needs your one-time code."],
-      c: ["good", "&#10003;", "<b>Correct.</b> Hang up, approve nothing, and report it. If you are worried the account really is at risk, open the tool yourself from your own bookmark and look &mdash; never through anything the caller gives you."],
+      c: ["good", "&#10003;", "<b>Correct.</b> Hang up, approve nothing, and report it. If you are worried the account really is at risk, open the tool yourself from your own bookmark and look. Never through anything the caller gives you."],
       d: ["bad", "&#10007;", "<b>Do not play along.</b> Staying on the call confirms the number reaches a real person who engages, which usually means more attempts. There is nothing to learn and nothing to win."]
     },
     6: {
       correct: "c",
-      a: ["bad", "&#10007;", "<b>Deleting first destroys the evidence.</b> Those messages show what was sent, to whom and when &mdash; and the account is very likely still compromised, so more will follow. Capture, then report, then clean up together."],
+      a: ["bad", "&#10007;", "<b>Deleting first destroys the evidence.</b> Those messages show what was sent, to whom and when, and the account is very likely still compromised, so more will follow. Capture, then report, then clean up together."],
       b: ["bad", "&#10007;", "<b>Half the job.</b> A password change without ending active sessions often leaves the intruder logged in. And the client cannot warn their customers about something nobody told them."],
       c: ["good", "&#10003;", "<b>Correct.</b> Tell people first, secure it together, and let the client warn their customers before the damage spreads. Every minute of hesitation is a minute of messages going out in their name."],
       d: ["bad", "&#10007;", "<b>Waiting is the expensive choice.</b> If it turns out to be nothing, you lost a few minutes of someone's time. If it is real, those hours are the difference between an incident and a breach."]
@@ -1414,6 +1486,16 @@
     btn.addEventListener("click", function () {
       var n = Number(btn.closest(".screen").getAttribute("data-step"));
       show(n - 1);
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-hint]"), function (btn) {
+    btn.addEventListener("click", function () {
+      var kind = btn.getAttribute("data-hint");
+      var next = kind === "flags"
+        ? document.querySelector("#screen-1 .hot:not(.is-found)")
+        : document.querySelector('#url-grid .url[data-bad="1"]:not(.is-marked)');
+      if (next) next.click();
     });
   });
 

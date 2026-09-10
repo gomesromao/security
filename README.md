@@ -1,4 +1,4 @@
-# Coconut — Security Essentials
+# Coconut Security Essentials
 
 Security awareness material for Coconut virtual professionals, built as two **separate,
 independent deliverables** that happen to live in the same repository.
@@ -12,7 +12,7 @@ Either one can ship on its own. They also link to each other, so they can be use
 
 The one-pager is the right answer if the team just wants something to read and share.
 The course is the right answer if we want people to *practise* rather than skim. Running
-both is also fine — the one-pager ends with a link into the course, and the course ends
+both is also fine. The one-pager ends with a link into the course, and the course ends
 with a link back to the one-pager.
 
 ---
@@ -21,12 +21,12 @@ with a link back to the one-pager.
 
 Both deliverables cover the same ground, so the messaging stays consistent:
 
-1. **Phishing, smishing & vishing** — fake messages by email, SMS and phone
-2. **Impersonation & urgent requests** — someone posing as a client, a manager or a vendor
-3. **Passwords, 2FA & account access** — length, uniqueness, password managers, codes
-4. **Devices, browsers & downloads** — locking, updates, fake install prompts, lookalike URLs
-5. **Client data & confidentiality** — what counts as personal data, approved tools, AI tools
-6. **Client accounts & speaking up** — named access, connected apps, reporting fast
+1. **Phishing, smishing & vishing**: fake messages by email, SMS and phone
+2. **Impersonation & urgent requests**: someone posing as a client, a manager or a vendor
+3. **Passwords, 2FA & account access**: length, uniqueness, password managers, codes
+4. **Devices, browsers & downloads**: locking, updates, fake install prompts, lookalike URLs
+5. **Client data & confidentiality**: what counts as personal data, approved tools, AI tools
+6. **Client accounts & speaking up**: named access, connected apps, reporting fast
 
 ## What the course exercises actually do
 
@@ -48,12 +48,12 @@ Each step unlocks its **Continue** button only once the exercise is finished, so
 
 Built directly on the **Coconut VA Design System v1.0**
 ([design-kit-drab.vercel.app](https://design-kit-drab.vercel.app/)).
-`assets/tokens.css` is that system's token file, unmodified — navy + green core, cream
+`assets/tokens.css` is that system's token file, unmodified: navy + green core, cream
 and mint surfaces, Manrope, pill buttons, generous radii, soft low-spread shadows.
 `assets/app.css` builds the shared shell (header, buttons, cards, sections, CTA bar,
 footer) on top of those tokens, so a change to the brand tokens flows through both pages.
 
-Layout takes its lead from `coconutcareers.lovable.app` — centred hero with a green
+Layout takes its lead from `coconutcareers.lovable.app`, with a centred hero carrying a green
 highlight in the display type, a mint stat strip, and white cards with soft shadows.
 
 Icons are an inline SVG sprite (stroke icons in mint pucks), not emoji, so they render
@@ -82,7 +82,7 @@ Opening `index.html` straight from disk also works.
 
 ## Deploying
 
-The whole repository is the site — publish it as-is to GitHub Pages, Vercel, Netlify or
+The whole repository is the site. Publish it as-is to GitHub Pages, Vercel, Netlify or
 anything else that serves static files. No configuration, no environment variables, no
 build command.
 
