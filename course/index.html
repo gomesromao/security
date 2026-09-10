@@ -4,8 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Security Essentials Course | Coconut</title>
-<meta name="description" content="A six-step security awareness course for Coconut virtual professionals. About twenty minutes, at your own pace.">
-<link rel="icon" href="../assets/logo-navy.png">
+<meta name="description" content="A nine-step security awareness course for Coconut virtual professionals. About thirty minutes, at your own pace.">
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="../assets/tokens.css">
@@ -33,14 +35,14 @@
     letter-spacing: 0.06em; text-transform: uppercase; color: var(--cv-fg-3);
     white-space: nowrap;
   }
-  .pdots { display: flex; gap: 6px; }
+  .pdots { display: flex; gap: 5px; }
   .pdot {
     width: 9px; height: 9px; border-radius: 999px; background: var(--cv-border);
     transition: background var(--cv-dur-base) var(--cv-ease);
   }
   .pdot.is-done { background: var(--cv-green-600); }
   .pdot.is-current { background: var(--cv-navy-800); transform: scale(1.25); }
-  @media (max-width: 620px) { .pdots { display: none; } }
+  @media (max-width: 760px) { .pdots { display: none; } }
 
   /* ------------------------------------------------------------ screens */
   .screen { display: none; }
@@ -68,18 +70,30 @@
     padding: 16px; border-radius: var(--cv-radius-md);
     background: var(--cv-bg-soft);
   }
-  .idea .puck { width: 38px; height: 38px; font-size: 17px; }
+  .idea .puck { width: 38px; height: 38px; }
+  .idea .puck .ico { width: 18px; height: 18px; }
   .idea h4 { margin: 0 0 4px; }
 
   /* --------------------------------------------------------- exercise UI */
   .ex-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: var(--cv-sp-5); }
   .ex-title { display: flex; align-items: center; gap: 10px; }
+  .ex-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .counter {
     font-family: var(--cv-font-display); font-weight: 800; font-size: 13px;
     padding: 7px 13px; border-radius: 999px;
     background: var(--cv-bg-soft); color: var(--cv-fg-2); white-space: nowrap;
   }
   .counter.is-done { background: var(--cv-green-100); color: var(--cv-green-700); }
+  .hint {
+    font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+    padding: 7px 13px; border-radius: 999px;
+    background: transparent; color: var(--cv-fg-3);
+    border: 1.5px dashed var(--cv-border);
+    transition: color var(--cv-dur-fast) var(--cv-ease),
+                border-color var(--cv-dur-fast) var(--cv-ease);
+  }
+  .hint:hover { color: var(--cv-navy-800); border-color: var(--cv-navy-500); }
+  .hint[hidden] { display: none; }
 
   /* option buttons */
   .options { display: grid; gap: 10px; }
@@ -117,6 +131,7 @@
   .feedback.bad  { background: #FCEDED; color: #8E2F2F; }
   .feedback.info { background: var(--cv-bg-cream); color: var(--cv-fg-2); }
   .feedback b { font-weight: 800; }
+  .feedback .ico { width: 18px; height: 18px; margin-top: 2px; }
 
   /* ------------------------------------------------------- email mockup */
   .mail {
@@ -131,6 +146,7 @@
   .mail-row .lbl { color: var(--cv-fg-3); font-weight: 700; min-width: 62px; }
   .mail-body { padding: 18px 16px; font-size: 15px; line-height: 1.7; color: var(--cv-fg-2); }
   .mail-body p { margin: 0 0 12px; }
+  .mail-body p:last-child { margin-bottom: 0; }
 
   .hot {
     cursor: pointer; border-radius: 5px; padding: 2px 4px;
@@ -154,6 +170,22 @@
     font-size: 14px; line-height: 1.5; font-weight: 600;
     animation: fade var(--cv-dur-base) var(--cv-ease-out);
   }
+
+  /* prompt box, for the AI step */
+  .prompt-box {
+    border: 1px solid var(--cv-border); border-radius: var(--cv-radius-lg);
+    background: var(--cv-bg); overflow: hidden;
+  }
+  .prompt-bar {
+    display: flex; align-items: center; gap: 9px;
+    padding: 11px 16px; background: var(--cv-bg-soft);
+    border-bottom: 1px solid var(--cv-border-soft);
+    font-size: 13px; font-weight: 700; color: var(--cv-fg-3);
+  }
+  .prompt-bar .ico { width: 16px; height: 16px; }
+  .prompt-body { padding: 18px 16px; font-size: 15px; line-height: 1.75; color: var(--cv-fg-2); }
+  .prompt-body p { margin: 0 0 12px; }
+  .prompt-body p:last-child { margin-bottom: 0; }
 
   /* --------------------------------------------------- password chips */
   .pw-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
@@ -218,7 +250,9 @@
     padding: 9px 14px; border-radius: 999px;
     background: var(--cv-bg); color: var(--cv-fg-2);
     border: 1.5px solid var(--cv-border);
-    transition: all var(--cv-dur-fast) var(--cv-ease);
+    transition: background-color var(--cv-dur-fast) var(--cv-ease),
+                border-color var(--cv-dur-fast) var(--cv-ease),
+                color var(--cv-dur-fast) var(--cv-ease);
   }
   .sort-choices button:hover:not([disabled]) { border-color: var(--cv-navy-500); }
   .sort-choices button.is-picked { background: var(--cv-navy-800); color: #fff; border-color: var(--cv-navy-800); }
@@ -228,6 +262,39 @@
   .sort-row.is-correct .why, .sort-row.is-wrong .why { display: block; }
   @media (max-width: 700px) { .sort-row { grid-template-columns: 1fr; } }
 
+  /* true / false round: same machinery, tighter presentation */
+  .tf .sort-row { align-items: center; }
+  .tf .sort-row .claim { font-size: 15px; line-height: 1.55; font-weight: 600; color: var(--cv-fg-1); margin: 0; }
+  .tf .sort-choices button { min-width: 74px; justify-content: center; }
+
+  /* ------------------------------------------------------ ordering list */
+  .order-list { display: grid; gap: 10px; }
+  .order-item {
+    display: flex; gap: 12px; align-items: flex-start; text-align: left;
+    width: 100%; font: inherit; font-weight: 600; color: var(--cv-fg-1);
+    background: var(--cv-bg); border: 1.5px solid var(--cv-border);
+    border-radius: var(--cv-radius-md); padding: 15px 17px; cursor: pointer;
+    transition: border-color var(--cv-dur-fast) var(--cv-ease),
+                background-color var(--cv-dur-fast) var(--cv-ease);
+  }
+  .order-item:hover:not(.is-placed) { border-color: var(--cv-navy-500); }
+  .order-item:focus-visible { outline: 3px solid var(--cv-green-500); outline-offset: 2px; }
+  .order-item .seat {
+    flex: 0 0 auto; width: 26px; height: 26px; border-radius: 999px;
+    background: var(--cv-bg-soft); color: var(--cv-fg-3);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--cv-font-display); font-size: 13px; font-weight: 800;
+  }
+  .order-item.is-placed {
+    border-color: var(--cv-green-600); background: var(--cv-green-100); cursor: default;
+  }
+  .order-item.is-placed .seat { background: var(--cv-green-600); color: #fff; }
+  .order-item.is-shake { border-color: var(--cv-error); animation: shake 340ms var(--cv-ease); }
+  @keyframes shake {
+    20% { transform: translateX(-6px); } 40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
+  }
+
   /* ---------------------------------------------------------- checklist */
   .checks { display: grid; gap: 10px; }
   .check {
@@ -235,7 +302,8 @@
     width: 100%; font: inherit; font-weight: 600; cursor: pointer;
     background: var(--cv-bg); border: 1.5px solid var(--cv-border);
     border-radius: var(--cv-radius-md); padding: 14px 16px;
-    transition: all var(--cv-dur-fast) var(--cv-ease);
+    transition: border-color var(--cv-dur-fast) var(--cv-ease),
+                background-color var(--cv-dur-fast) var(--cv-ease);
   }
   .check:hover:not(.is-checked) { border-color: var(--cv-navy-500); }
   .check .box {
@@ -243,7 +311,9 @@
     border: 2px solid var(--cv-border); background: var(--cv-bg);
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 13px; font-weight: 800; color: transparent;
-    transition: all var(--cv-dur-fast) var(--cv-ease);
+    transition: background-color var(--cv-dur-fast) var(--cv-ease),
+                border-color var(--cv-dur-fast) var(--cv-ease),
+                color var(--cv-dur-fast) var(--cv-ease);
   }
   .check.is-checked { border-color: var(--cv-green-600); background: var(--cv-green-100); }
   .check.is-checked .box { background: var(--cv-green-600); border-color: var(--cv-green-600); color: #fff; }
@@ -266,44 +336,16 @@
   }
   .lock-note:empty { display: none; }
 
-  .ex-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .hint {
-    font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
-    padding: 7px 13px; border-radius: 999px;
-    background: transparent; color: var(--cv-fg-3);
-    border: 1.5px dashed var(--cv-border);
-    transition: color var(--cv-dur-fast) var(--cv-ease),
-                border-color var(--cv-dur-fast) var(--cv-ease);
-  }
-  .hint:hover { color: var(--cv-navy-800); border-color: var(--cv-navy-500); }
-  .hint[hidden] { display: none; }
-
-  @media (max-width: 560px) {
-    .stage { padding-block: var(--cv-sp-8); }
-    .panel { padding: 20px; border-radius: var(--cv-radius-lg); }
-    .stepnav { flex-direction: column-reverse; align-items: stretch; gap: 10px; margin-top: var(--cv-sp-6); }
-    .stepnav-end { flex-direction: column; align-items: stretch; gap: 10px; }
-    .stepnav .btn { width: 100%; }
-    .lock-note { justify-content: center; text-align: center; }
-    .ex-head { gap: 10px; }
-    .ex-meta { width: 100%; justify-content: space-between; }
-    .progress-rail .wrap { gap: var(--cv-sp-4); padding-block: 12px; }
-    .idea { padding: 14px; gap: 12px; }
-    .step-head { margin-bottom: var(--cv-sp-6); }
-    .mail-row { padding: 11px 13px; }
-    .mail-body { padding: 15px 13px; }
-    .checks .check, .opt { padding: 13px 14px; }
-  }
-
   /* ------------------------------------------------------------- intro */
-  .intro-list { display: grid; gap: 10px; margin-top: var(--cv-sp-6); }
+  .intro-list { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-top: var(--cv-sp-6); }
+  @media (max-width: 700px) { .intro-list { grid-template-columns: minmax(0,1fr); } }
   .intro-item {
     display: flex; gap: 14px; align-items: center;
     padding: 14px 16px; border-radius: var(--cv-radius-md);
     background: var(--cv-bg-soft);
   }
-  .intro-item .puck { width: 34px; height: 34px; font-size: 14px; }
-  .intro-item span { font-weight: 700; color: var(--cv-navy-800); font-size: 15px; }
+  .intro-item .puck { width: 32px; height: 32px; font-size: 13px; }
+  .intro-item span { font-weight: 700; color: var(--cv-navy-800); font-size: 14.5px; }
 
   /* -------------------------------------------------------------- done */
   .done-mark {
@@ -321,6 +363,24 @@
     background: var(--cv-navy-800); color: #fff;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 12px; font-weight: 800;
+  }
+
+  /* ------------------------------------------------------------ mobile */
+  @media (max-width: 560px) {
+    .stage { padding-block: var(--cv-sp-8); }
+    .panel { padding: 20px; border-radius: var(--cv-radius-lg); }
+    .stepnav { flex-direction: column-reverse; align-items: stretch; gap: 10px; margin-top: var(--cv-sp-6); }
+    .stepnav-end { flex-direction: column; align-items: stretch; gap: 10px; }
+    .stepnav .btn { width: 100%; }
+    .lock-note { justify-content: center; text-align: center; }
+    .ex-head { gap: 10px; }
+    .ex-meta { width: 100%; justify-content: space-between; }
+    .progress-rail .wrap { gap: var(--cv-sp-4); padding-block: 12px; }
+    .idea { padding: 14px; gap: 12px; }
+    .step-head { margin-bottom: var(--cv-sp-6); }
+    .mail-row { padding: 11px 13px; }
+    .mail-body, .prompt-body { padding: 15px 13px; }
+    .checks .check, .opt, .order-item { padding: 13px 14px; }
   }
 </style>
 </head>
@@ -373,7 +433,7 @@
 
 <div class="progress-rail" id="rail" hidden>
   <div class="wrap">
-    <span class="pcount" id="pcount">Step 1 of 6</span>
+    <span class="pcount" id="pcount">Step 1 of 9</span>
     <div class="pbar"><div class="pbar-fill" id="pfill"></div></div>
     <div class="pdots" id="pdots"></div>
   </div>
@@ -386,7 +446,7 @@
     <section class="screen is-active" id="screen-intro">
       <div class="center stack">
         <p class="eyebrow">Coconut Security Essentials</p>
-        <h1 class="display">Six steps. About <span class="hl">twenty minutes.</span></h1>
+        <h1 class="display">Nine steps. About <span class="hl">thirty minutes.</span></h1>
         <p class="lede measure" style="margin-inline:auto;">
           This is the practice version of the security ground rules. Each step is a short
           read followed by one thing to try: a suspicious email, an urgent chat, a
@@ -397,15 +457,18 @@
       <div class="panel" style="margin-top: var(--cv-sp-10);">
         <p class="meta">What you will cover</p>
         <div class="intro-list">
-          <div class="intro-item"><div class="puck puck-navy puck-num">1</div><span>Phishing, smishing &amp; vishing</span></div>
-          <div class="intro-item"><div class="puck puck-navy puck-num">2</div><span>Impersonation &amp; urgent requests</span></div>
-          <div class="intro-item"><div class="puck puck-navy puck-num">3</div><span>Passwords, 2FA &amp; account access</span></div>
-          <div class="intro-item"><div class="puck puck-navy puck-num">4</div><span>Devices, browsers &amp; downloads</span></div>
-          <div class="intro-item"><div class="puck puck-navy puck-num">5</div><span>Client data &amp; confidentiality</span></div>
-          <div class="intro-item"><div class="puck puck-navy puck-num">6</div><span>Client accounts &amp; speaking up</span></div>
+          <div class="intro-item"><div class="puck puck-num">1</div><span>Phishing, smishing &amp; vishing</span></div>
+          <div class="intro-item"><div class="puck puck-num">2</div><span>Impersonation &amp; urgent requests</span></div>
+          <div class="intro-item"><div class="puck puck-num">3</div><span>Passwords, 2FA &amp; account access</span></div>
+          <div class="intro-item"><div class="puck puck-num">4</div><span>Devices, browsers &amp; downloads</span></div>
+          <div class="intro-item"><div class="puck puck-num">5</div><span>Malware &amp; ransomware</span></div>
+          <div class="intro-item"><div class="puck puck-num">6</div><span>Client data &amp; confidentiality</span></div>
+          <div class="intro-item"><div class="puck puck-num">7</div><span>Working safely with AI</span></div>
+          <div class="intro-item"><div class="puck puck-num">8</div><span>Payments &amp; card details</span></div>
+          <div class="intro-item"><div class="puck puck-num">9</div><span>Spotting trouble &amp; speaking up</span></div>
         </div>
         <div class="feedback info is-shown" style="margin-top: var(--cv-sp-6);">
-          <span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg></span>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
           <div>
             Your progress is saved as you go, so you can stop at any point and pick up
             from the same step later. Take it at your own pace.
@@ -421,7 +484,7 @@
     <!-- ========================================================= STEP 1 -->
     <section class="screen" id="screen-1" data-step="1">
       <div class="step-head">
-        <p class="eyebrow">Step 1 of 6</p>
+        <p class="eyebrow">Step 1 of 9</p>
         <h2 class="h2">Phishing, smishing &amp; vishing</h2>
         <p class="lede">
           Three names for one idea: a message pretending to be someone you trust, built to
@@ -474,8 +537,9 @@
           <span class="chip chip-error">"Skip the usual process"</span>
         </div>
         <p class="body-sm" style="margin-top: var(--cv-sp-5);">
-          Bad grammar is no longer a reliable tell. Plenty of these are perfectly
-          written. The pressure to act quickly is the signal that survives.
+          Bad grammar is no longer a reliable tell. Plenty of these are perfectly written,
+          and plenty are now written by the same AI tools you use. The pressure to act
+          quickly is the signal that survives.
         </p>
       </div>
 
@@ -486,8 +550,8 @@
             <h3 class="h4">Spot the red flags</h3>
           </div>
           <div class="ex-meta">
-            <button class="hint" type="button" data-hint="flags">Stuck? Reveal one</button>
-            <span class="counter" id="c1">0 of 5 found</span>
+            <button class="hint" type="button" data-hint=".hot:not(.is-found)" data-hint-scope="#screen-1" data-hint-task="flags">Stuck? Reveal one</button>
+            <span class="counter" id="c-flags">0 of 5 found</span>
           </div>
         </div>
         <p class="body" style="margin-bottom: var(--cv-sp-5);">
@@ -496,29 +560,29 @@
           and each one explains itself as you find it.
         </p>
 
-        <div class="mail">
+        <div class="mail" data-hotspots="flags" data-counter="c-flags" data-findings="f-flags" data-feedback="fb-flags">
           <div class="mail-row">
             <span class="lbl">From</span>
-            <span>IT Support &lt;<span class="hot" data-flag="1" data-note="The display name says IT Support, but the actual domain has nothing to do with your company or any real vendor.">support@account-verify-desk.com</span>&gt;</span>
+            <span>IT Support &lt;<span class="hot" data-note="The display name says IT Support, but the actual domain has nothing to do with your company or any real vendor.">support@account-verify-desk.com</span>&gt;</span>
           </div>
           <div class="mail-row">
             <span class="lbl">Subject</span>
-            <span class="hot" data-flag="2" data-note="Manufactured urgency in the subject line. Real security notices inform you; they do not shout a deadline at you.">URGENT: Account suspension, immediate action required</span>
+            <span class="hot" data-note="Manufactured urgency in the subject line. Real security notices inform you; they do not shout a deadline at you.">URGENT: Account suspension, immediate action required</span>
           </div>
           <div class="mail-body">
-            <p><span class="hot" data-flag="3" data-note="A generic greeting. A system that genuinely holds your account knows your name.">Dear User</span>,</p>
-            <p>We have detected unusual sign-in activity on your account. For your protection, your access will be <span class="hot" data-flag="4" data-note="A threatening countdown. The deadline exists to stop you from checking with anyone before you act.">permanently suspended within 24 hours</span> unless your identity is verified.</p>
+            <p><span class="hot" data-note="A generic greeting. A system that genuinely holds your account knows your name.">Dear User</span>,</p>
+            <p>We have detected unusual sign-in activity on your account. For your protection, your access will be <span class="hot" data-note="A threatening countdown. The deadline exists to stop you from checking with anyone before you act.">permanently suspended within 24 hours</span> unless your identity is verified.</p>
             <p>Please confirm your details here:<br>
-              <span class="hot" data-flag="5" data-note="Read what sits just before the first slash. That is the real destination, and it is not a company you have an account with.">https://account-verify-desk.com/secure/login</span>
+              <span class="hot" data-note="Read what sits just before the first slash. That is the real destination, and it is not a company you have an account with.">https://account-verify-desk.com/secure/login</span>
             </p>
             <p>Thank you,<br>The Security Team</p>
           </div>
         </div>
 
-        <div class="findings" id="f1"></div>
+        <div class="findings" id="f-flags"></div>
 
-        <div class="feedback good" id="fb1">
-          <span>&#10003;</span>
+        <div class="feedback good" id="fb-flags">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>
           <div>
             <b>All five.</b> One more worth noticing: the message opens as "IT Support" and
             signs off as "The Security Team". Real internal mail rarely changes identity
@@ -541,7 +605,7 @@
     <!-- ========================================================= STEP 2 -->
     <section class="screen" id="screen-2" data-step="2">
       <div class="step-head">
-        <p class="eyebrow">Step 2 of 6</p>
+        <p class="eyebrow">Step 2 of 9</p>
         <h2 class="h2">Impersonation &amp; urgent requests</h2>
         <p class="lede">
           The most expensive attacks never break anything. They ask politely, as someone you
@@ -569,7 +633,7 @@
           <div class="idea">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert"/></svg></div>
             <div>
-              <h4 class="h5">Authority + urgency + secrecy</h4>
+              <h4 class="h5">Authority plus urgency plus secrecy</h4>
               <p class="body-sm">Someone important, something that cannot wait, and a reason not to mention it to anyone. That combination is the attack, almost every time.</p>
             </div>
           </div>
@@ -585,7 +649,7 @@
         <hr class="hr" style="margin-block: var(--cv-sp-8);">
 
         <div class="feedback info is-shown" style="margin-top:0;">
-          <span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg></span>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
           <div>
             <b>The one rule that covers all of it:</b> verify out-of-band. Confirm the
             request on a channel the request did not come from, using contact details you
@@ -642,7 +706,7 @@
     <!-- ========================================================= STEP 3 -->
     <section class="screen" id="screen-3" data-step="3">
       <div class="step-head">
-        <p class="eyebrow">Step 3 of 6</p>
+        <p class="eyebrow">Step 3 of 9</p>
         <h2 class="h2">Passwords, 2FA &amp; account access</h2>
         <p class="lede">
           Most account takeovers are not clever. They are an old password, leaked from some
@@ -768,7 +832,7 @@
     <!-- ========================================================= STEP 4 -->
     <section class="screen" id="screen-4" data-step="4">
       <div class="step-head">
-        <p class="eyebrow">Step 4 of 6</p>
+        <p class="eyebrow">Step 4 of 9</p>
         <h2 class="h2">Devices, browsers &amp; downloads</h2>
         <p class="lede">
           Your work machine is a client's office. Whoever sits at it, or whatever gets
@@ -808,7 +872,7 @@
             </div>
           </div>
           <div class="idea">
-            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-search"/></svg></div>
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-globe"/></svg></div>
             <div>
               <h4 class="h5">Read the domain, not the page</h4>
               <p class="body-sm">Look at the words immediately before the first slash. Everything to the left can be faked, and a perfect copy of a login screen takes minutes to build.</p>
@@ -824,7 +888,7 @@
             <h3 class="h4">Which of these should you not sign in to?</h3>
           </div>
           <div class="ex-meta">
-            <button class="hint" type="button" data-hint="urls">Stuck? Reveal one</button>
+            <button class="hint" type="button" data-hint=".url[data-bad='1']:not(.is-marked)" data-hint-scope="#url-grid" data-hint-task="urls">Stuck? Reveal one</button>
             <span class="counter" id="c4">0 of 3 found</span>
           </div>
         </div>
@@ -861,7 +925,7 @@
         </div>
 
         <div class="feedback good" id="fb4">
-          <span>&#10003;</span>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>
           <div>
             <b>All three.</b> Notice that the padlock and "https" appeared on every one of
             them. A certificate proves the connection is encrypted, not that the site is
@@ -883,7 +947,111 @@
     <!-- ========================================================= STEP 5 -->
     <section class="screen" id="screen-5" data-step="5">
       <div class="step-head">
-        <p class="eyebrow">Step 5 of 6</p>
+        <p class="eyebrow">Step 5 of 9</p>
+        <h2 class="h2">Malware &amp; ransomware</h2>
+        <p class="lede">
+          Malware is any program running on the machine that should not be. Ransomware is
+          the version that locks the client's files and asks for money to give them back.
+        </p>
+      </div>
+
+      <div class="panel">
+        <p class="meta">Key ideas</p>
+        <div class="idea-list" style="margin-top: var(--cv-sp-4);">
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg></div>
+            <div>
+              <h4 class="h5">How it gets in</h4>
+              <p class="body-sm">An attachment you were not expecting, a free version of paid software, a browser extension nobody vetted, or a USB stick someone handed you. Almost never something dramatic.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-refresh"/></svg></div>
+            <div>
+              <h4 class="h5">Your access is its access</h4>
+              <p class="body-sm">Ransomware does not stop at your laptop. It walks into every shared drive and synced cloud folder your account can reach, which on a VA machine can mean several clients at once.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-search"/></svg></div>
+            <div>
+              <h4 class="h5">The early signs</h4>
+              <p class="body-sm">Files renaming themselves or gaining a strange extension, documents that suddenly will not open, the fan loud and the machine crawling for no reason, or a text file appearing in folders you did not touch.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ban"/></svg></div>
+            <div>
+              <h4 class="h5">Never pay, and never decide alone</h4>
+              <p class="body-sm">Paying funds the next attack and often does not return the files. Whether anything gets paid is the client's decision, made with the agency. It is never a call you make quietly on your own.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg></div>
+            <div>
+              <h4 class="h5">Backups are what actually save you</h4>
+              <p class="body-sm">This is the practical reason client data belongs in client systems: those are backed up and versioned. The copy on your desktop is the one nobody can restore.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="ex-head">
+          <div class="ex-title">
+            <span class="sticker">Try it</span>
+            <h3 class="h4">The first four moves</h3>
+          </div>
+          <span class="counter" id="c5">0 of 4 in order</span>
+        </div>
+        <p class="body" style="margin-bottom: var(--cv-sp-5);">
+          You come back from lunch and files in the client's shared folder are renaming
+          themselves one by one. <b>Click these in the order you would do them.</b>
+        </p>
+
+        <div class="order-list" data-order="order" data-counter="c5" data-feedback="fb5">
+          <button class="order-item" type="button" data-pos="3"
+            data-why="Third. Once the spread is stopped and the evidence is intact, tell people. Your Coconut contact and the client both need to know inside minutes, not at the end of the day."
+            data-early="Reporting matters enormously, but not before you have stopped the spread. Every second the machine stays connected, more of the client's files are encrypted.">
+            <span class="seat">&middot;</span>
+            <span>Tell your Coconut contact and the client what you are seeing.</span>
+          </button>
+          <button class="order-item" type="button" data-pos="1"
+            data-why="First, and within seconds. Pulling the machine off the network is the only thing that stops it reaching more shared folders. Turn off wifi or unplug the cable."
+            data-early="Something needs to happen before this. Right now the encryption is still spreading through everything your account can reach.">
+            <span class="seat">&middot;</span>
+            <span>Disconnect the machine from the network: wifi off, or cable out.</span>
+          </button>
+          <button class="order-item" type="button" data-pos="4"
+            data-why="Last. Restoring, rebuilding or paying anything is decided with the client and the agency. Acting alone here is how a recoverable incident becomes an unrecoverable one."
+            data-early="Far too early. Nothing about recovery gets decided until the spread is stopped, the evidence is intact and the right people know.">
+            <span class="seat">&middot;</span>
+            <span>Wait for instructions before restoring, rebuilding or paying anything.</span>
+          </button>
+          <button class="order-item" type="button" data-pos="2"
+            data-why="Second. Leave it powered on and delete nothing. Shutting down can destroy the traces that show how it got in, and the ransom note is evidence, not litter."
+            data-early="Not yet. This one only matters once the machine can no longer reach anything else on the network.">
+            <span class="seat">&middot;</span>
+            <span>Leave the machine switched on, and delete nothing.</span>
+          </button>
+        </div>
+
+        <div class="feedback" id="fb5"><span></span><div></div></div>
+
+        <div class="stepnav">
+          <button class="btn btn-ghost" data-back type="button">&larr; Back</button>
+          <div class="stepnav-end">
+            <span class="lock-note"></span>
+            <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= STEP 6 -->
+    <section class="screen" id="screen-6" data-step="6">
+      <div class="step-head">
+        <p class="eyebrow">Step 6 of 9</p>
         <h2 class="h2">Client data &amp; confidentiality</h2>
         <p class="lede">
           Customer lists, invoices, ID documents, contact details. All of it belongs to the
@@ -909,13 +1077,6 @@
             </div>
           </div>
           <div class="idea">
-            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bot"/></svg></div>
-            <div>
-              <h4 class="h5">Approved tools only, AI included</h4>
-              <p class="body-sm">Pasting a customer list, a contract or internal documents into an unapproved chatbot is a disclosure to a third party. Check before you use a new tool, not after.</p>
-            </div>
-          </div>
-          <div class="idea">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-home"/></svg></div>
             <div>
               <h4 class="h5">Nothing through personal accounts</h4>
@@ -938,13 +1099,13 @@
             <span class="sticker">Try it</span>
             <h3 class="h4">Where does each of these belong?</h3>
           </div>
-          <span class="counter" id="c5">0 of 4 placed</span>
+          <span class="counter" id="c6">0 of 4 placed</span>
         </div>
         <p class="body-sm" style="margin-bottom: var(--cv-sp-5);">
           Four things that turn up in a normal week. Pick the right home for each.
         </p>
 
-        <div id="sort-list">
+        <div data-sortgroup="sort6" data-counter="c6" data-feedback="fb6">
           <div class="sort-row" data-answer="system">
             <div>
               <h4 class="h5">A customer export with 4,000 names and email addresses</h4>
@@ -998,8 +1159,8 @@
           </div>
         </div>
 
-        <div class="feedback good" id="fb5">
-          <span>&#10003;</span>
+        <div class="feedback good" id="fb6">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>
           <div>
             <b>That is the pattern.</b> Client data lives in client systems, credentials live
             in a password manager, and anything else is a copy waiting to become a problem.
@@ -1018,14 +1179,14 @@
       </div>
     </section>
 
-    <!-- ========================================================= STEP 6 -->
-    <section class="screen" id="screen-6" data-step="6">
+    <!-- ========================================================= STEP 7 -->
+    <section class="screen" id="screen-7" data-step="7">
       <div class="step-head">
-        <p class="eyebrow">Step 6 of 6</p>
-        <h2 class="h2">Client accounts &amp; speaking up</h2>
+        <p class="eyebrow">Step 7 of 9</p>
+        <h2 class="h2">Working safely with AI</h2>
         <p class="lede">
-          Shared accounts are where access quietly accumulates. And a small problem stays
-          small only for as long as it takes someone to mention it.
+          AI tools are part of the job now, and that is a good thing. The risk is almost
+          never the tool itself. It is what gets pasted into it.
         </p>
       </div>
 
@@ -1033,17 +1194,260 @@
         <p class="meta">Key ideas</p>
         <div class="idea-list" style="margin-top: var(--cv-sp-4);">
           <div class="idea">
-            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-user"/></svg></div>
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bot"/></svg></div>
             <div>
-              <h4 class="h5">Your own named access, at the lowest level that works</h4>
-              <p class="body-sm">Ask to be invited as a user on the client's business tools rather than handed a shared password. Take the permissions the work needs, not administrator "just in case".</p>
+              <h4 class="h5">Treat the chat box like a public website</h4>
+              <p class="body-sm">Whatever you paste may be stored, reviewed by a human, or used to improve the model. It is not a private notebook, and you cannot take it back once it is sent.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ban"/></svg></div>
+            <div>
+              <h4 class="h5">Approved tools only, and check before a new one</h4>
+              <p class="body-sm">The free tool a colleague swears by has not been reviewed by anyone. New AI tools appear weekly and most have no agreement about what they do with your data.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg></div>
+            <div>
+              <h4 class="h5">What never goes in</h4>
+              <p class="body-sm">Customer lists, contracts, ID documents, card or bank details, passwords and API keys, medical or HR information, and anything about a client's plans that is not public yet.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-search"/></svg></div>
+            <div>
+              <h4 class="h5">Strip it down instead of pasting it whole</h4>
+              <p class="body-sm">Most tasks work just as well on an anonymised version. Replace real names with placeholders, drop the numbers, and ask about the shape of the problem rather than the specific record.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert"/></svg></div>
+            <div>
+              <h4 class="h5">It can be confidently wrong, and it can be steered</h4>
+              <p class="body-sm">Check names, numbers and dates before anything reaches a client. And when you ask a tool to read a web page or a forwarded document, remember that instructions can be hidden inside that content. Treat what comes back as a suggestion, never as an order.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="ex-head">
+          <div class="ex-title">
+            <span class="sticker">Try it</span>
+            <h3 class="h4">Clean up this prompt</h3>
+          </div>
+          <div class="ex-meta">
+            <button class="hint" type="button" data-hint=".hot:not(.is-found)" data-hint-scope="#screen-7" data-hint-task="prompt">Stuck? Reveal one</button>
+            <span class="counter" id="c-prompt">0 of 5 found</span>
+          </div>
+        </div>
+        <p class="body" style="margin-bottom: var(--cv-sp-5);">
+          A colleague is about to send this to a chatbot to get help writing a follow-up
+          email. <b>Click everything that should not be pasted in.</b> There are five.
+        </p>
+
+        <div class="prompt-box" data-hotspots="prompt" data-counter="c-prompt" data-findings="f-prompt" data-feedback="fb-prompt">
+          <div class="prompt-bar">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-bot"/></svg>
+            <span>New chat</span>
+          </div>
+          <div class="prompt-body">
+            <p>Help me write a polite follow-up email chasing an unpaid invoice. Keep it friendly and under 120 words.</p>
+            <p>Customer: <span class="hot" data-note="A real person's name, email and phone number. This is personal data, and it belongs to the client, not to a chat window.">Maria Fernandes, maria.fernandes@brightpath.example, +44 7700 900482</span></p>
+            <p>Account: <span class="hot" data-note="The client's commercial detail. Who owes what is confidential business information, and it is not needed to write a friendly reminder.">BrightPath Ltd, invoice 4471, 8,240 outstanding since March</span></p>
+            <p>Card on file: <span class="hot" data-note="Card numbers must never be typed anywhere except the payment system itself. Not into a chatbot, not into a document, not into a message.">4539 1488 0343 6467, expires 09/28</span></p>
+            <p>Portal login if you need context: <span class="hot" data-note="Credentials. Pasting a login into a chat window hands it to a third party and puts it in a log you do not control.">brightpath_admin / Spring2026!</span></p>
+            <p><span class="hot" data-note="The signed agreement is confidential and almost certainly covered by an NDA. Pasting a contract into an unapproved tool is a disclosure, whatever the intention was.">Here is the full signed services agreement for background: "This Agreement is made between..."</span></p>
+          </div>
+        </div>
+
+        <div class="findings" id="f-prompt"></div>
+
+        <div class="feedback good" id="fb-prompt">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>
+          <div>
+            <b>All five, and notice what is left.</b> "Help me write a polite follow-up email
+            chasing an unpaid invoice, friendly, under 120 words" gets you the same draft
+            without exposing a single thing. The real name, the amount and the dates go in
+            afterwards, by hand, in the client's own system. That is the habit: ask about the
+            shape of the task, then fill in the specifics yourself.
+          </div>
+        </div>
+
+        <div class="stepnav">
+          <button class="btn btn-ghost" data-back type="button">&larr; Back</button>
+          <div class="stepnav-end">
+            <span class="lock-note"></span>
+            <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= STEP 8 -->
+    <section class="screen" id="screen-8" data-step="8">
+      <div class="step-head">
+        <p class="eyebrow">Step 8 of 9</p>
+        <h2 class="h2">Payments &amp; card details</h2>
+        <p class="lede">
+          The moment money is involved the rules get simpler and stricter. You do not hold
+          card details, and you do not change where money goes.
+        </p>
+      </div>
+
+      <div class="panel">
+        <p class="meta">Key ideas</p>
+        <div class="idea-list" style="margin-top: var(--cv-sp-4);">
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-card"/></svg></div>
+            <div>
+              <h4 class="h5">Card numbers never touch you</h4>
+              <p class="body-sm">Not in chat, not in a document, not in a screenshot, not "just until the payment clears". Send the customer the proper payment link. That link exists precisely so the details never reach a person.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg></div>
+            <div>
+              <h4 class="h5">A change of bank details is verified by voice</h4>
+              <p class="body-sm">Always, and on the number you already had rather than the one in the message. A supplier "updating their account" is the single most expensive fraud in business, and the email usually looks perfect.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ban"/></svg></div>
+            <div>
+              <h4 class="h5">Gift cards and crypto are not business payments</h4>
+              <p class="body-sm">No real company settles an invoice, a bonus or an emergency in gift card codes. A request for either is a fraud attempt until somebody proves otherwise by voice.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-refresh"/></svg></div>
+            <div>
+              <h4 class="h5">Refunds and invoices follow the client's process</h4>
+              <p class="body-sm">No shortcuts and no "just this once", even when the person asking outranks everyone you work with. The process is what protects you as much as it protects them.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg></div>
+            <div>
+              <h4 class="h5">If money already went out, speed is everything</h4>
+              <p class="body-sm">Banks can sometimes stop or recall a transfer within the first hours and almost never after that. A payment you suspect was fraudulent gets reported immediately, before you are certain.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="ex-head">
+          <div class="ex-title">
+            <span class="sticker">Try it</span>
+            <h3 class="h4">True or false</h3>
+          </div>
+          <span class="counter" id="c8">0 of 5 answered</span>
+        </div>
+        <p class="body-sm" style="margin-bottom: var(--cv-sp-5);">
+          Five statements about handling money and card details. Mark each one.
+        </p>
+
+        <div class="tf" data-sortgroup="tf8" data-counter="c8" data-feedback="fb8">
+          <div class="sort-row" data-answer="false">
+            <p class="claim">If a customer pastes their card number into chat, it is fine to keep it until the payment goes through.</p>
+            <div class="sort-choices">
+              <button type="button" data-pick="true">True</button>
+              <button type="button" data-pick="false">False</button>
+            </div>
+            <p class="why">False. It is not yours to hold for any length of time. Handle the payment through the proper link, delete the message, and tell the client it arrived that way so they can remind the customer.</p>
+          </div>
+
+          <div class="sort-row" data-answer="false">
+            <p class="claim">A supplier emailing new bank details from their usual address is enough to update the payment record.</p>
+            <div class="sort-choices">
+              <button type="button" data-pick="true">True</button>
+              <button type="button" data-pick="false">False</button>
+            </div>
+            <p class="why">False. The usual address is exactly what an attacker takes over first, and a compromised mailbox sends perfectly normal-looking mail. Bank changes are confirmed by voice on a number you already had.</p>
+          </div>
+
+          <div class="sort-row" data-answer="true">
+            <p class="claim">A request to buy gift cards should be verified even when it comes from the most senior person you work with.</p>
+            <div class="sort-choices">
+              <button type="button" data-pick="true">True</button>
+              <button type="button" data-pick="false">False</button>
+            </div>
+            <p class="why">True. Seniority is the disguise, not the proof. Anyone genuinely senior will understand a verification call, and anyone who reacts badly to one has told you something useful.</p>
+          </div>
+
+          <div class="sort-row" data-answer="true">
+            <p class="claim">If you realise a payment went to a fraudulent account, reporting it within the hour can sometimes get it recalled.</p>
+            <div class="sort-choices">
+              <button type="button" data-pick="true">True</button>
+              <button type="button" data-pick="false">False</button>
+            </div>
+            <p class="why">True, and it is the whole reason not to wait until you are sure. Banks have a short window to freeze or recall a transfer. Embarrassment costs minutes; silence costs the money.</p>
+          </div>
+
+          <div class="sort-row" data-answer="false">
+            <p class="claim">Taking a screenshot of a card to send to the finance team is safer than typing the number out.</p>
+            <div class="sort-choices">
+              <button type="button" data-pick="true">True</button>
+              <button type="button" data-pick="false">False</button>
+            </div>
+            <p class="why">False. A screenshot is the same data in a form that also lands in your photo library, your cloud backup and the recipient's chat history. Neither version should exist.</p>
+          </div>
+        </div>
+
+        <div class="feedback good" id="fb8">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>
+          <div>
+            <b>All five.</b> Every answer here reduces to the same two habits: card details
+            never rest with a person, and anything that changes where money goes gets
+            confirmed out loud, on a number you already had.
+          </div>
+        </div>
+
+        <div class="stepnav">
+          <button class="btn btn-ghost" data-back type="button">&larr; Back</button>
+          <div class="stepnav-end">
+            <span class="lock-note"></span>
+            <button class="btn btn-primary" data-next type="button" disabled>Continue &rarr;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= STEP 9 -->
+    <section class="screen" id="screen-9" data-step="9">
+      <div class="step-head">
+        <p class="eyebrow">Step 9 of 9</p>
+        <h2 class="h2">Spotting trouble &amp; speaking up</h2>
+        <p class="lede">
+          Almost every incident was visible before it was obvious. The skill is noticing the
+          small wrong thing, and then saying it out loud straight away.
+        </p>
+      </div>
+
+      <div class="panel">
+        <p class="meta">How you notice</p>
+        <div class="idea-list" style="margin-top: var(--cv-sp-4);">
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-search"/></svg></div>
+            <div>
+              <h4 class="h5">The signals worth stopping for</h4>
+              <p class="body-sm">A sign-in alert from a place you have never been. A password reset you did not request. Sent items or posts you did not write. A mail rule forwarding messages somewhere. A contact asking why you sent them something strange.</p>
             </div>
           </div>
           <div class="idea">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg></div>
             <div>
-              <h4 class="h5">Review what is connected</h4>
-              <p class="body-sm">Third-party apps, old scheduling tools, forgotten integrations and sessions still open on a device you no longer use. Each one is a door that stays unlocked.</p>
+              <h4 class="h5">Check what is connected, now and then</h4>
+              <p class="body-sm">Third-party apps, old integrations, forgotten browser extensions, sessions still open on a device you no longer use, and recovery emails or phone numbers you do not recognise. Each one is a door left unlocked.</p>
+            </div>
+          </div>
+          <div class="idea">
+            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-user"/></svg></div>
+            <div>
+              <h4 class="h5">Your own named access, at the lowest level that works</h4>
+              <p class="body-sm">Ask to be invited as a user on the client's tools rather than handed a shared password. Take the permissions the work needs, not administrator "just in case".</p>
             </div>
           </div>
           <div class="idea">
@@ -1056,14 +1460,7 @@
           <div class="idea">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-megaphone"/></svg></div>
             <div>
-              <h4 class="h5">Say it out loud, immediately</h4>
-              <p class="body-sm">A login alert you do not recognise, a link you clicked and regretted, a message you did not send. Tell your Coconut contact right away, before you are sure rather than after.</p>
-            </div>
-          </div>
-          <div class="idea">
-            <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg></div>
-            <div>
-              <h4 class="h5">Speed is the whole strategy</h4>
+              <h4 class="h5">Say it before you are sure</h4>
               <p class="body-sm">An account secured in ten minutes is an incident. The same account left quiet until tomorrow is a breach. Reporting fast is doing the job well, and it is treated that way.</p>
             </div>
           </div>
@@ -1076,7 +1473,7 @@
             <span class="sticker">Try it</span>
             <h3 class="h4">The morning you did not expect</h3>
           </div>
-          <span class="counter" id="c6a">Choose one</span>
+          <span class="counter" id="c9">Choose one</span>
         </div>
         <p class="body" style="margin-bottom: var(--cv-sp-5);">
           You open a client's account to start the day and find three messages sent
@@ -1084,14 +1481,14 @@
           thing you do?
         </p>
 
-        <div class="options" data-mcq="6" data-correct="c">
+        <div class="options" data-mcq="9" data-correct="c">
           <button class="opt" data-key="a" type="button"><span class="key">A</span><span>Delete the messages quickly, so as few customers as possible see them.</span></button>
           <button class="opt" data-key="b" type="button"><span class="key">B</span><span>Change your password and get on with the day. It is handled.</span></button>
           <button class="opt" data-key="c" type="button"><span class="key">C</span><span>Tell your Coconut contact and the client straight away, then secure the account together.</span></button>
           <button class="opt" data-key="d" type="button"><span class="key">D</span><span>Wait a few hours to be certain it was not something you did by mistake.</span></button>
         </div>
 
-        <div class="feedback" id="fb6"><span></span><div></div></div>
+        <div class="feedback" id="fb9"><span></span><div></div></div>
 
         <hr class="hr" style="margin-block: var(--cv-sp-8);">
 
@@ -1100,7 +1497,7 @@
             <span class="sticker">And commit</span>
             <h3 class="h4">The first hour</h3>
           </div>
-          <span class="counter" id="c6b">0 of 4 read</span>
+          <span class="counter" id="c9b">0 of 4 read</span>
         </div>
         <p class="body-sm" style="margin-bottom: var(--cv-sp-5);">
           Tick each one to confirm you know the order. This is the sequence for any account
@@ -1110,7 +1507,7 @@
         <div class="checks" id="checks">
           <button class="check" type="button"><span class="box">&#10003;</span><span><b>Stop, and delete nothing.</b> Do not send, approve or clean anything up. Screenshot what you see first, because that record is what makes the cleanup possible.</span></button>
           <button class="check" type="button"><span class="box">&#10003;</span><span><b>Change the password and sign out everywhere.</b> Ending all active sessions is what actually removes an intruder; a new password alone often does not.</span></button>
-          <button class="check" type="button"><span class="box">&#10003;</span><span><b>Reset two-factor and review connected apps.</b> Check for recovery emails, phone numbers or third-party apps that were added without you.</span></button>
+          <button class="check" type="button"><span class="box">&#10003;</span><span><b>Reset two-factor and review connected apps.</b> Check for recovery emails, phone numbers, mail rules or third-party apps that were added without you.</span></button>
           <button class="check" type="button"><span class="box">&#10003;</span><span><b>Report it with times and screenshots.</b> Your Coconut contact and the client, in the same hour, even if the picture is still incomplete.</span></button>
         </div>
 
@@ -1129,7 +1526,7 @@
       <div class="panel center">
         <div class="done-mark">&#10003;</div>
         <p class="eyebrow" style="margin-top: var(--cv-sp-6);">Course complete</p>
-        <h2 class="h2">All six steps done.</h2>
+        <h2 class="h2">All nine steps done.</h2>
         <p class="lede measure" style="margin: var(--cv-sp-4) auto 0;">
           The point was never the quiz. It was that the next time a message pushes you to
           move fast, something in the back of your mind says wait.
@@ -1140,8 +1537,11 @@
           <div class="recap-item"><span class="n">2</span><p class="body-sm"><b>Verify out-of-band.</b> Never with the contact details inside the message.</p></div>
           <div class="recap-item"><span class="n">3</span><p class="body-sm"><b>Long, unique, managed.</b> And nobody ever needs your two-factor code.</p></div>
           <div class="recap-item"><span class="n">4</span><p class="body-sm"><b>Lock it, update it, install nothing a page asked for.</b></p></div>
-          <div class="recap-item"><span class="n">5</span><p class="body-sm"><b>Client data stays in client systems.</b> No personal accounts, no unapproved tools.</p></div>
-          <div class="recap-item"><span class="n">6</span><p class="body-sm"><b>Report in minutes.</b> Speed is the difference between an incident and a breach.</p></div>
+          <div class="recap-item"><span class="n">5</span><p class="body-sm"><b>If files start changing, disconnect first.</b> Then report, then wait for instructions.</p></div>
+          <div class="recap-item"><span class="n">6</span><p class="body-sm"><b>Client data stays in client systems.</b> No personal accounts, no stray copies.</p></div>
+          <div class="recap-item"><span class="n">7</span><p class="body-sm"><b>Ask AI about the shape of the task,</b> and fill in the real details yourself.</p></div>
+          <div class="recap-item"><span class="n">8</span><p class="body-sm"><b>Card details never rest with you,</b> and bank changes are confirmed by voice.</p></div>
+          <div class="recap-item"><span class="n">9</span><p class="body-sm"><b>Report in minutes.</b> Speed is the difference between an incident and a breach.</p></div>
         </div>
 
         <div class="stepnav" style="justify-content: center;">
@@ -1165,8 +1565,11 @@
 (function () {
   "use strict";
 
-  var TOTAL = 6;
-  var KEY = "coconut-security-course-v1";
+  var TOTAL = 9;
+  var KEY = "coconut-security-course-v2";
+
+  var TICK = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>';
+  var CROSS = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert"/></svg>';
 
   /* ------------------------------------------------------------- state */
   var state = { current: 0, done: {}, tasks: {} };
@@ -1188,14 +1591,16 @@
   }
 
   /* ------------------------------------------------------------- gates */
-  // Each step lists the task ids it needs before Continue unlocks.
   var GATES = {
     1: ["flags"],
     2: ["mcq2"],
     3: ["pw", "mcq3"],
     4: ["urls"],
-    5: ["sort"],
-    6: ["mcq6", "checks"]
+    5: ["order"],
+    6: ["sort6"],
+    7: ["prompt"],
+    8: ["tf8"],
+    9: ["mcq9", "checks"]
   };
 
   function taskDone(id) { return state.tasks[id] === true; }
@@ -1207,16 +1612,12 @@
     refreshGates();
   }
 
-  function stepUnlocked(n) {
-    return (GATES[n] || []).every(taskDone);
-  }
-
-  var HINT_TASK = { flags: "flags", urls: "urls" };
+  function stepUnlocked(n) { return (GATES[n] || []).every(taskDone); }
 
   function refreshGates() {
     // A disabled button with no explanation reads as broken. Always say why.
     Array.prototype.forEach.call(document.querySelectorAll("[data-hint]"), function (b) {
-      b.hidden = taskDone(HINT_TASK[b.getAttribute("data-hint")]);
+      b.hidden = taskDone(b.getAttribute("data-hint-task"));
     });
     for (var n = 1; n <= TOTAL; n++) {
       var screen = document.getElementById("screen-" + n);
@@ -1282,18 +1683,23 @@
   /* ------------------------------------------------------- shared bits */
   function showFeedback(el, tone, icon, html) {
     el.className = "feedback " + tone + " is-shown";
-    el.children[0].innerHTML = icon;
-    el.children[1].innerHTML = html;
+    el.children[0].outerHTML = icon;
+    el.children[el.children.length - 1].innerHTML = html;
+  }
+  function setFeedback(el, tone, icon, html) {
+    el.className = "feedback " + tone + " is-shown";
+    el.innerHTML = icon + "<div>" + html + "</div>";
   }
 
-  /* -------------------------------------------- exercise 1: red flags */
-  (function () {
-    var hots = document.querySelectorAll("#screen-1 .hot");
-    var counter = document.getElementById("c1");
-    var list = document.getElementById("f1");
-    var fb = document.getElementById("fb1");
-    var found = 0;
+  /* --------------------------------------------- hotspot exercises (x2) */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-hotspots]"), function (box) {
+    var task = box.getAttribute("data-hotspots");
+    var counter = document.getElementById(box.getAttribute("data-counter"));
+    var list = document.getElementById(box.getAttribute("data-findings"));
+    var fb = document.getElementById(box.getAttribute("data-feedback"));
+    var hots = box.querySelectorAll(".hot");
     var total = hots.length;
+    var found = 0;
 
     Array.prototype.forEach.call(hots, function (hot) {
       hot.setAttribute("role", "button");
@@ -1310,7 +1716,7 @@
         if (found === total) {
           counter.classList.add("is-done");
           fb.classList.add("is-shown");
-          markTask("flags");
+          markTask(task);
         }
       }
       hot.addEventListener("click", reveal);
@@ -1318,30 +1724,31 @@
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); reveal(); }
       });
     });
-  })();
+  });
 
   /* ------------------------------------------------- multiple choice */
+  var MCQ_COUNTER = { "2": "c2", "3": "c3b", "9": "c9" };
   var MCQ = {
     2: {
       correct: "c",
-      a: ["bad", "&#10007;", "<b>This is how the money leaves.</b> Gift card codes are untraceable the moment they are sent, which is exactly why they are asked for. A genuine client also has no reason to route a purchase through you with 20 minutes' notice."],
-      b: ["bad", "&#10007;", "<b>Close, but it verifies nothing.</b> You would be asking the sender to confirm that the sender is genuine. Whoever wrote the message can just as easily send an email from a lookalike address."],
-      c: ["good", "&#10003;", "<b>Correct.</b> A voice call on the number you already had breaks the attack completely, and telling your Coconut contact means the same message can be recognised if it reaches a colleague next. Notice every ingredient was here: authority, urgency, a new channel, secrecy, and an untraceable payment."],
-      d: ["bad", "&#10007;", "<b>Safer than paying, but not enough.</b> Ignoring it protects you and leaves everyone else exposed. If it was genuine the client is still waiting, and if it was not, nobody knows the attempt happened."]
+      a: ["bad", CROSS, "<b>This is how the money leaves.</b> Gift card codes are untraceable the moment they are sent, which is exactly why they are asked for. A genuine client also has no reason to route a purchase through you with 20 minutes' notice."],
+      b: ["bad", CROSS, "<b>Close, but it verifies nothing.</b> You would be asking the sender to confirm that the sender is genuine. Whoever wrote the message can just as easily send an email from a lookalike address."],
+      c: ["good", TICK, "<b>Correct.</b> A voice call on the number you already had breaks the attack completely, and telling your Coconut contact means the same message can be recognised if it reaches a colleague next. Notice every ingredient was here: authority, urgency, a new channel, secrecy, and an untraceable payment."],
+      d: ["bad", CROSS, "<b>Safer than paying, but not enough.</b> Ignoring it protects you and leaves everyone else exposed. If it was genuine the client is still waiting, and if it was not, nobody knows the attempt happened."]
     },
     3: {
       correct: "c",
-      a: ["bad", "&#10007;", "<b>That code is the account.</b> The caller is almost certainly sitting on the login page right now, waiting for you to read out the one thing that lets them in. The lockout they described does not exist."],
-      b: ["bad", "&#10007;", "<b>The questions will not save you.</b> Anyone who knows your name and your tools can pass an informal check. The request itself is the answer: no genuine process ever needs your one-time code."],
-      c: ["good", "&#10003;", "<b>Correct.</b> Hang up, approve nothing, and report it. If you are worried the account really is at risk, open the tool yourself from your own bookmark and look. Never through anything the caller gives you."],
-      d: ["bad", "&#10007;", "<b>Do not play along.</b> Staying on the call confirms the number reaches a real person who engages, which usually means more attempts. There is nothing to learn and nothing to win."]
+      a: ["bad", CROSS, "<b>That code is the account.</b> The caller is almost certainly sitting on the login page right now, waiting for you to read out the one thing that lets them in. The lockout they described does not exist."],
+      b: ["bad", CROSS, "<b>The questions will not save you.</b> Anyone who knows your name and your tools can pass an informal check. The request itself is the answer: no genuine process ever needs your one-time code."],
+      c: ["good", TICK, "<b>Correct.</b> Hang up, approve nothing, and report it. If you are worried the account really is at risk, open the tool yourself from your own bookmark and look. Never through anything the caller gives you."],
+      d: ["bad", CROSS, "<b>Do not play along.</b> Staying on the call confirms the number reaches a real person who engages, which usually means more attempts. There is nothing to learn and nothing to win."]
     },
-    6: {
+    9: {
       correct: "c",
-      a: ["bad", "&#10007;", "<b>Deleting first destroys the evidence.</b> Those messages show what was sent, to whom and when, and the account is very likely still compromised, so more will follow. Capture, then report, then clean up together."],
-      b: ["bad", "&#10007;", "<b>Half the job.</b> A password change without ending active sessions often leaves the intruder logged in. And the client cannot warn their customers about something nobody told them."],
-      c: ["good", "&#10003;", "<b>Correct.</b> Tell people first, secure it together, and let the client warn their customers before the damage spreads. Every minute of hesitation is a minute of messages going out in their name."],
-      d: ["bad", "&#10007;", "<b>Waiting is the expensive choice.</b> If it turns out to be nothing, you lost a few minutes of someone's time. If it is real, those hours are the difference between an incident and a breach."]
+      a: ["bad", CROSS, "<b>Deleting first destroys the evidence.</b> Those messages show what was sent, to whom and when, and the account is very likely still compromised, so more will follow. Capture, then report, then clean up together."],
+      b: ["bad", CROSS, "<b>Half the job.</b> A password change without ending active sessions often leaves the intruder logged in. And the client cannot warn their customers about something nobody told them."],
+      c: ["good", TICK, "<b>Correct.</b> Tell people first, secure it together, and let the client warn their customers before the damage spreads. Every minute of hesitation is a minute of messages going out in their name."],
+      d: ["bad", CROSS, "<b>Waiting is the expensive choice.</b> If it turns out to be nothing, you lost a few minutes of someone's time. If it is real, those hours are the difference between an incident and a breach."]
     }
   };
 
@@ -1349,7 +1756,7 @@
     var id = group.getAttribute("data-mcq");
     var conf = MCQ[id];
     var fb = document.getElementById("fb" + id);
-    var counter = document.getElementById(id === "3" ? "c3b" : "c" + id + (id === "6" ? "a" : ""));
+    var counter = document.getElementById(MCQ_COUNTER[id]);
     var opts = group.querySelectorAll(".opt");
 
     Array.prototype.forEach.call(opts, function (opt) {
@@ -1360,7 +1767,7 @@
 
         opt.classList.remove("is-correct", "is-wrong");
         opt.classList.add(right ? "is-correct" : "is-wrong");
-        showFeedback(fb, info[0], info[1], info[2]);
+        setFeedback(fb, info[0], info[1], info[2]);
 
         if (right) {
           Array.prototype.forEach.call(opts, function (o) {
@@ -1374,7 +1781,7 @@
     });
   });
 
-  /* --------------------------------------------- exercise 3: passwords */
+  /* --------------------------------------------- password inspector */
   (function () {
     var pws = document.querySelectorAll("#pw-grid [data-pw]");
     var counter = document.getElementById("c3a");
@@ -1393,7 +1800,7 @@
     });
   })();
 
-  /* -------------------------------------------------- exercise 4: URLs */
+  /* -------------------------------------------------------- URL hunt */
   (function () {
     var urls = document.querySelectorAll("#url-grid .url");
     var counter = document.getElementById("c4");
@@ -1422,11 +1829,13 @@
     });
   })();
 
-  /* ------------------------------------------------- exercise 5: sort */
-  (function () {
-    var rows = document.querySelectorAll("#sort-list .sort-row");
-    var counter = document.getElementById("c5");
-    var fb = document.getElementById("fb5");
+  /* ---------------------------------------- sorting rounds (3-way, T/F) */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-sortgroup]"), function (group) {
+    var task = group.getAttribute("data-sortgroup");
+    var counter = document.getElementById(group.getAttribute("data-counter"));
+    var fb = document.getElementById(group.getAttribute("data-feedback"));
+    var rows = group.querySelectorAll(".sort-row");
+    var word = counter.textContent.replace(/^\d+ of \d+ /, "") || "placed";
     var right = 0;
 
     Array.prototype.forEach.call(rows, function (row) {
@@ -1443,22 +1852,56 @@
           if (ok) {
             Array.prototype.forEach.call(buttons, function (o) { o.disabled = true; });
             right++;
-            counter.textContent = right + " of " + rows.length + " placed";
+            counter.textContent = right + " of " + rows.length + " " + word;
             if (right === rows.length) {
               counter.classList.add("is-done");
-              fb.classList.add("is-shown");
-              markTask("sort");
+              if (fb) fb.classList.add("is-shown");
+              markTask(task);
             }
           }
         });
       });
     });
-  })();
+  });
 
-  /* --------------------------------------------- exercise 6: checklist */
+  /* --------------------------------------------------- ordering round */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-order]"), function (list) {
+    var task = list.getAttribute("data-order");
+    var counter = document.getElementById(list.getAttribute("data-counter"));
+    var fb = document.getElementById(list.getAttribute("data-feedback"));
+    var items = list.querySelectorAll(".order-item");
+    var next = 1;
+
+    Array.prototype.forEach.call(items, function (item) {
+      item.addEventListener("click", function () {
+        if (item.classList.contains("is-placed")) return;
+        var pos = Number(item.getAttribute("data-pos"));
+
+        if (pos !== next) {
+          item.classList.add("is-shake");
+          setTimeout(function () { item.classList.remove("is-shake"); }, 360);
+          setFeedback(fb, "bad", CROSS, item.getAttribute("data-early"));
+          return;
+        }
+
+        item.classList.add("is-placed");
+        item.querySelector(".seat").textContent = String(next);
+        setFeedback(fb, "good", TICK, item.getAttribute("data-why"));
+        next++;
+        counter.textContent = (next - 1) + " of " + items.length + " in order";
+
+        if (next > items.length) {
+          counter.classList.add("is-done");
+          markTask(task);
+        }
+      });
+    });
+  });
+
+  /* ----------------------------------------------------- checklist */
   (function () {
     var checks = document.querySelectorAll("#checks .check");
-    var counter = document.getElementById("c6b");
+    var counter = document.getElementById("c9b");
     var ticked = 0;
     Array.prototype.forEach.call(checks, function (c) {
       c.addEventListener("click", function () {
@@ -1474,6 +1917,16 @@
     });
   })();
 
+  /* --------------------------------------------------------- hints */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-hint]"), function (btn) {
+    btn.addEventListener("click", function () {
+      var scope = document.querySelector(btn.getAttribute("data-hint-scope"));
+      if (!scope) return;
+      var next = scope.querySelector(btn.getAttribute("data-hint"));
+      if (next) next.click();
+    });
+  });
+
   /* ------------------------------------------------------ navigation */
   Array.prototype.forEach.call(document.querySelectorAll("[data-next]"), function (btn) {
     btn.addEventListener("click", function () {
@@ -1486,16 +1939,6 @@
     btn.addEventListener("click", function () {
       var n = Number(btn.closest(".screen").getAttribute("data-step"));
       show(n - 1);
-    });
-  });
-
-  Array.prototype.forEach.call(document.querySelectorAll("[data-hint]"), function (btn) {
-    btn.addEventListener("click", function () {
-      var kind = btn.getAttribute("data-hint");
-      var next = kind === "flags"
-        ? document.querySelector("#screen-1 .hot:not(.is-found)")
-        : document.querySelector('#url-grid .url[data-bad="1"]:not(.is-marked)');
-      if (next) next.click();
     });
   });
 

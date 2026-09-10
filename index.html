@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Security Essentials | Coconut</title>
 <meta name="description" content="The short version of how every Coconut virtual professional protects client accounts, devices and data. Five minutes to read, built to keep.">
-<link rel="icon" href="assets/logo-navy.png">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/tokens.css">
@@ -25,7 +27,7 @@
 
   /* topic cards */
   .topic { display: flex; flex-direction: column; gap: 14px; height: 100%; }
-  .topic-head { display: flex; align-items: center; gap: 12px; }
+  .topic-head { display: flex; align-items: center; gap: 12px; min-height: 48px; }
   .topic ul { margin: 0; padding-left: 18px; }
   .topic li { font-size: 14.5px; line-height: 1.55; color: var(--cv-fg-2); margin-top: 6px; }
 
@@ -117,7 +119,7 @@
         This page is the short version: five minutes to read, and yours to keep.
       </p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="course/">Take the 6-step course &rarr;</a>
+        <a class="btn btn-primary" href="course/">Take the 9-step course &rarr;</a>
         <a class="btn btn-ghost" href="#ground-rules">Read the ground rules</a>
       </div>
     </div>
@@ -126,7 +128,7 @@
   <div class="stat-strip">
     <div class="wrap">
       <div>
-        <div class="stat-num">6</div>
+        <div class="stat-num">9</div>
         <div class="stat-label">Core topics</div>
       </div>
       <div>
@@ -134,7 +136,7 @@
         <div class="stat-label">To read this page</div>
       </div>
       <div>
-        <div class="stat-num">~20 min</div>
+        <div class="stat-num">~30 min</div>
         <div class="stat-label">To finish the course</div>
       </div>
       <div>
@@ -197,9 +199,9 @@
     <div class="wrap">
       <div class="center stack" style="margin-bottom: var(--cv-sp-12);">
         <p class="eyebrow">The whole picture</p>
-        <h2 class="h2">Six things every Coconut VA should know</h2>
+        <h2 class="h2">Nine things every Coconut VA should know</h2>
         <p class="lede measure" style="margin-inline:auto;">
-          These are the six topics the course walks through, one step at a time. Here they
+          These are the nine topics the course walks through, one step at a time. Here they
           are in summary, if reading is all you need today.
         </p>
       </div>
@@ -209,7 +211,7 @@
         <article class="card">
           <div class="topic">
             <div class="topic-head">
-              <div class="puck puck-navy puck-num">1</div>
+              <div class="puck puck-num">1</div>
               <h3 class="h4">Phishing, smishing &amp; vishing</h3>
             </div>
             <p class="body-sm">Fake messages by email, SMS or phone call, built to make you hand something over.</p>
@@ -224,12 +226,12 @@
         <article class="card">
           <div class="topic">
             <div class="topic-head">
-              <div class="puck puck-navy puck-num">2</div>
+              <div class="puck puck-num">2</div>
               <h3 class="h4">Impersonation &amp; urgent requests</h3>
             </div>
             <p class="body-sm">Someone posing as your client, your manager or a vendor to move money or data.</p>
             <ul>
-              <li>Authority + urgency + secrecy = stop and verify</li>
+              <li>Authority plus urgency plus secrecy means stop and verify</li>
               <li>New bank details always get confirmed on a known number</li>
               <li>Verify on a channel the message did not come from</li>
             </ul>
@@ -239,7 +241,7 @@
         <article class="card">
           <div class="topic">
             <div class="topic-head">
-              <div class="puck puck-navy puck-num">3</div>
+              <div class="puck puck-num">3</div>
               <h3 class="h4">Passwords, 2FA &amp; access</h3>
             </div>
             <p class="body-sm">One reused password is the difference between one bad day and every account falling.</p>
@@ -254,7 +256,7 @@
         <article class="card">
           <div class="topic">
             <div class="topic-head">
-              <div class="puck puck-navy puck-num">4</div>
+              <div class="puck puck-num">4</div>
               <h3 class="h4">Devices, browsers &amp; downloads</h3>
             </div>
             <p class="body-sm">Your work machine is a client's office. Anyone at that machine is inside it.</p>
@@ -269,14 +271,14 @@
         <article class="card">
           <div class="topic">
             <div class="topic-head">
-              <div class="puck puck-navy puck-num">5</div>
-              <h3 class="h4">Client data &amp; confidentiality</h3>
+              <div class="puck puck-num">5</div>
+              <h3 class="h4">Malware &amp; ransomware</h3>
             </div>
-            <p class="body-sm">Customer lists, invoices and personal details belong to the client, wherever they sit.</p>
+            <p class="body-sm">The program that should not be running, and the version of it that locks the files.</p>
             <ul>
-              <li>Collect and keep only what the work needs</li>
-              <li>Approved tools only, AI tools included</li>
-              <li>Never move client data to a personal account or drive</li>
+              <li>Your access is its access, including shared drives</li>
+              <li>If files start renaming themselves, disconnect first</li>
+              <li>Nobody pays anything, and nobody decides alone</li>
             </ul>
           </div>
         </article>
@@ -284,12 +286,57 @@
         <article class="card">
           <div class="topic">
             <div class="topic-head">
-              <div class="puck puck-navy puck-num">6</div>
-              <h3 class="h4">Client accounts &amp; speaking up</h3>
+              <div class="puck puck-num">6</div>
+              <h3 class="h4">Client data &amp; confidentiality</h3>
             </div>
-            <p class="body-sm">Shared logins and business accounts need care, and problems need to be said out loud.</p>
+            <p class="body-sm">Customer lists, invoices and personal details belong to the client, wherever they sit.</p>
             <ul>
-              <li>Your own named access, at the lowest level that works</li>
+              <li>Collect and keep only what the work needs</li>
+              <li>Never move client data to a personal account or drive</li>
+              <li>Named access on a need-to-know basis, not shared logins</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="topic">
+            <div class="topic-head">
+              <div class="puck puck-num">7</div>
+              <h3 class="h4">Working safely with AI</h3>
+            </div>
+            <p class="body-sm">The tool is not the risk. What gets pasted into it is.</p>
+            <ul>
+              <li>Treat the chat box like a public website</li>
+              <li>Ask about the shape of the task, not the real record</li>
+              <li>Approved tools only, and check before trying a new one</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="topic">
+            <div class="topic-head">
+              <div class="puck puck-num">8</div>
+              <h3 class="h4">Payments &amp; card details</h3>
+            </div>
+            <p class="body-sm">When money is involved the rules get simpler and a lot stricter.</p>
+            <ul>
+              <li>Card numbers never rest with a person</li>
+              <li>A change of bank details is confirmed by voice</li>
+              <li>Gift cards and crypto are not business payments</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="topic">
+            <div class="topic-head">
+              <div class="puck puck-num">9</div>
+              <h3 class="h4">Spotting trouble &amp; speaking up</h3>
+            </div>
+            <p class="body-sm">Almost every incident was visible before it was obvious.</p>
+            <ul>
+              <li>Know the signals: odd logins, resets, mail rules, sent items</li>
               <li>Review connected apps and active sessions periodically</li>
               <li>Report in minutes, not tomorrow. That is the whole job</li>
             </ul>
@@ -307,7 +354,7 @@
         <p class="eyebrow">Keep this part</p>
         <h2 class="h2">The ground rules</h2>
         <p class="lede measure" style="margin-inline:auto;">
-          If you remember nothing else from this page, remember these ten.
+          If you remember nothing else from this page, remember these twelve.
         </p>
       </div>
 
@@ -321,6 +368,8 @@
           <li><span class="tick">&#10003;</span><p class="body"><strong>Turn on two-factor everywhere it is offered.</strong> Especially email, because email resets everything else.</p></li>
           <li><span class="tick">&#10003;</span><p class="body"><strong>Lock your screen and keep your machine updated.</strong> Every time you step away, including at home. Updates are the cheapest protection there is.</p></li>
           <li><span class="tick">&#10003;</span><p class="body"><strong>Install nothing that a web page told you to install.</strong> Extensions, plugins, "required security updates", codecs. Approved software only.</p></li>
+          <li><span class="tick">&#10003;</span><p class="body"><strong>Ask AI about the shape of the task, not the real record.</strong> Strip out names, numbers, contracts and credentials before you paste. The draft comes out just as good.</p></li>
+          <li><span class="tick">&#10003;</span><p class="body"><strong>Card details never rest with you, and bank changes are confirmed by voice.</strong> Not in chat, not in a screenshot, not "just until it clears". A supplier updating their account gets a phone call first.</p></li>
           <li><span class="tick">&#10003;</span><p class="body"><strong>Keep client data in client systems.</strong> No personal drives, no personal email, no pasting confidential material into unapproved AI tools.</p></li>
           <li><span class="tick">&#10003;</span><p class="body"><strong>Report immediately, even if you think you caused it.</strong> Speed is what limits the damage. Nobody at Coconut is punished for reporting fast.</p></li>
         </ul>
@@ -431,11 +480,11 @@
       <div class="cta-bar">
         <div class="stack-lg" style="max-width: 620px;">
           <p class="eyebrow">Practice, don't just read</p>
-          <h2 class="h2">Six steps. About twenty minutes.</h2>
+          <h2 class="h2">Nine steps. About thirty minutes.</h2>
           <p class="lede">
-            The course takes the same six topics and puts you inside them: the suspicious
-            email, the urgent chat, the almost-right URL. The habit is already there when
-            it counts.
+            The course takes the same nine topics and puts you inside them: the suspicious
+            email, the urgent chat, the prompt with too much in it. The habit is already
+            there when it counts.
           </p>
           <div>
             <a class="btn btn-green" href="course/">Start the course &rarr;</a>

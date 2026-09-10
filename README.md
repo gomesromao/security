@@ -8,7 +8,7 @@ Either one can ship on its own. They also link to each other, so they can be use
 | | What it is | Where |
 |---|---|---|
 | **1. The one-pager** | A complete, self-contained summary of the security ground rules. Read it in five minutes, keep it, print it. No interaction required. | [`index.html`](index.html) → `/` |
-| **2. The course** | The same six topics as a step-by-step course with hands-on exercises and a progress bar (`Step X of 6`). About twenty minutes. | [`course/index.html`](course/index.html) → `/course/` |
+| **2. The course** | The same nine topics as a step-by-step course with hands-on exercises and a progress bar (`Step X of 9`). About thirty minutes. | [`course/index.html`](course/index.html) → `/course/` |
 
 The one-pager is the right answer if the team just wants something to read and share.
 The course is the right answer if we want people to *practise* rather than skim. Running
@@ -17,7 +17,7 @@ with a link back to the one-pager.
 
 ---
 
-## The six topics
+## The nine topics
 
 Both deliverables cover the same ground, so the messaging stays consistent:
 
@@ -25,22 +25,32 @@ Both deliverables cover the same ground, so the messaging stays consistent:
 2. **Impersonation & urgent requests**: someone posing as a client, a manager or a vendor
 3. **Passwords, 2FA & account access**: length, uniqueness, password managers, codes
 4. **Devices, browsers & downloads**: locking, updates, fake install prompts, lookalike URLs
-5. **Client data & confidentiality**: what counts as personal data, approved tools, AI tools
-6. **Client accounts & speaking up**: named access, connected apps, reporting fast
+5. **Malware & ransomware**: how it arrives, how it spreads through shared drives, first moves
+6. **Client data & confidentiality**: what counts as personal data, where each thing belongs
+7. **Working safely with AI**: what never gets pasted, and why the tool is not the risk
+8. **Payments & card details**: card data, bank-detail changes, gift cards, the recall window
+9. **Spotting trouble & speaking up**: the signals, connected apps, named access, reporting fast
 
 ## What the course exercises actually do
 
 Each step unlocks its **Continue** button only once the exercise is finished, so
 "completed" means something:
 
-| Step | Exercise |
-|---|---|
-| 1 | Find all five red flags in a suspicious email (clickable hotspots, each explained) |
-| 2 | Decide how to respond to an urgent gift-card request from a "client" on a new number |
-| 3 | Inspect four passwords to see why three of them fail, then handle a caller asking for a 2FA code |
-| 4 | Pick the three fake addresses out of six, including the `rn`/`m`, `1`/`l` and `0`/`o` tricks |
-| 5 | Sort four real work items into the right home: client system, password manager, or delete |
-| 6 | Choose the first move when a client account posts on its own, then confirm the first-hour sequence |
+| Step | Exercise | Type |
+|---|---|---|
+| 1 | Find all five red flags in a suspicious email | clickable hotspots |
+| 2 | Respond to an urgent gift-card request from a "client" on a new number | multiple choice |
+| 3 | Inspect four passwords, then handle a caller asking for a 2FA code | reveal + multiple choice |
+| 4 | Pick the three fake addresses out of six (`rn`/`m`, `1`/`l`, `0`/`o`) | find them all |
+| 5 | Put the first four moves of a ransomware response in order | ordering, validated per click |
+| 6 | Sort four work items into client system, password manager, or delete | three-way sort |
+| 7 | Strip the five things that should not be in an AI prompt | clickable hotspots |
+| 8 | Five true/false statements on handling money and card details | true / false round |
+| 9 | Choose the first move when an account posts on its own, then the first-hour sequence | multiple choice + checklist |
+
+Every step's **Continue** button stays locked until its exercise is finished, and says so
+in the amber note beside it. The two find-them-all exercises carry a "Stuck? Reveal one"
+button so nobody can dead-end.
 
 ---
 
@@ -56,8 +66,14 @@ footer) on top of those tokens, so a change to the brand tokens flows through bo
 Layout takes its lead from `coconutcareers.lovable.app`, with a centred hero carrying a green
 highlight in the display type, a mint stat strip, and white cards with soft shadows.
 
-Icons are an inline SVG sprite (stroke icons in mint pucks), not emoji, so they render
-identically on every machine.
+Icons are an inline SVG sprite (stroke icons in navy and mint pucks), not emoji, so they
+render identically on every machine.
+
+The favicon is the ring symbol from coconutva.com, set on the brand navy so it survives
+being shrunk to 16px. The site's own version is a pale gradient on transparency and
+disappears at tab size; the shape is unchanged, only the ground behind it.
+
+No copy anywhere uses an em-dash.
 
 ## Deliberately not included
 
@@ -88,16 +104,22 @@ build command.
 
 ## Content credit
 
-The topic coverage and several scenario ideas are adapted from
+The topic coverage draws on two sources. The first is
 [`emreugurlu/open-security-training`](https://github.com/emreugurlu/open-security-training),
-an open set of interactive security and privacy training modules with SCORM support.
+an open set of interactive security and privacy modules with SCORM support. The second is
+LinkedIn Learning's *Cybersecurity Foundations* and its security topic catalogue.
 
-That project ships six modules (including Secure Coding / OWASP Top 10) as large
-standalone HTML files designed for an LMS. This repository reworks the material for
-Coconut instead: the developer-focused module is dropped, the remaining content is
-rewritten for a virtual professional handling client inboxes, accounts and data, and the
-whole thing is rebuilt in Coconut's own design system as something we can host and share
-ourselves.
+Neither is reproduced here. Both were used to check what a security curriculum is expected
+to cover, and the writing is original throughout.
+
+Most of what those sources contain does not belong in front of a virtual professional.
+NIST and COBIT frameworks, rootkits and process hiding, zero trust architecture, SBOMs and
+supply chain security, OWASP and secure coding, cyber diplomacy: all governance or
+engineering material, all dropped. What was worth taking became the four things this course
+gained: **ransomware** as its own step rather than a passing mention, **AI safety** as its
+own step because VAs use these tools daily, **payments and card data** as its own step, and
+a **detection** section in the final step, because the original taught people to report
+quickly without teaching them how to notice anything in the first place.
 
 If we ever do want LMS-hosted, per-person completion records, that upstream repository
 also has a working SCORM 1.2 manifest and packaging script worth borrowing.

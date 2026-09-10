@@ -238,9 +238,11 @@ a { color: inherit; }
   flex: 0 0 auto;
 }
 .puck-navy { background: var(--cv-navy-800); color: #fff; }
+/* Numbers always ride the navy disc: mint on mint had almost no contrast. */
 .puck-num {
   font-family: var(--cv-font-display);
   font-weight: 800; font-size: 16px; letter-spacing: -0.02em;
+  background: var(--cv-navy-800); color: #fff;
 }
 
 /* chips */
@@ -290,8 +292,10 @@ a { color: inherit; }
 /* stat strip */
 .stat-strip { background: var(--cv-bg-mint); }
 .stat-strip .wrap {
-  display: flex; flex-wrap: wrap; align-items: baseline;
-  gap: var(--cv-sp-10) var(--cv-sp-16);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--cv-sp-8);
   padding-block: var(--cv-sp-10);
 }
 .stat-num {
@@ -370,10 +374,10 @@ a { color: inherit; }
 /* ------------------------------------------------------------- icons */
 .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 .ico {
-  width: 21px; height: 21px;
+  width: 22px; height: 22px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.9;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
   flex: 0 0 auto;
@@ -429,4 +433,20 @@ a { color: inherit; }
 /* Declared last so it beats `.btn { display: inline-flex }` at equal specificity. */
 @media (max-width: 620px) {
   .hide-sm { display: none; }
+}
+
+/* The preceding section already carries 96px of bottom padding; stacking the
+   CTA's own top padding on top of it left a dead band. */
+.section + .section-sm { padding-top: 0; }
+
+/* ====================================================================
+   Mobile QA: thumb targets. The header buttons sat at 34px, the brand
+   link at 27px and bare footer links at 19px, all under the ~44px a
+   thumb actually wants.
+   ==================================================================== */
+@media (max-width: 620px) {
+  .header-actions .btn { min-height: 40px; padding-block: 11px; }
+  .brand { padding-block: 8px; }
+  .site-footer a { display: inline-block; padding-block: 8px; }
+  .hint { min-height: 38px; }
 }
