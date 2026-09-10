@@ -58,6 +58,7 @@
   }
   .callout .puck { background: var(--cv-bg); }
 </style>
+<script>document.documentElement.classList.add("js-reveal");setTimeout(function(){if(!window.__cvMotion)document.documentElement.classList.remove("js-reveal");},2000);</script>
 </head>
 <body>
 
@@ -125,23 +126,23 @@
     </div>
   </section>
 
-  <div class="stat-strip">
+  <div class="stat-strip reveal">
     <div class="wrap">
-      <div>
+      <div class="stat">
         <div class="stat-num">9</div>
         <div class="stat-label">Core topics</div>
       </div>
-      <div>
+      <div class="stat">
         <div class="stat-num">5 min</div>
-        <div class="stat-label">To read this page</div>
+        <div class="stat-label">This page</div>
       </div>
-      <div>
-        <div class="stat-num">~30 min</div>
-        <div class="stat-label">To finish the course</div>
+      <div class="stat">
+        <div class="stat-num">30 min</div>
+        <div class="stat-label">The course</div>
       </div>
-      <div>
+      <div class="stat">
         <div class="stat-num">Day 1</div>
-        <div class="stat-label">And refreshed regularly</div>
+        <div class="stat-label">Then regularly</div>
       </div>
     </div>
   </div>
@@ -149,7 +150,7 @@
   <!-- ==================================================== WHY IT MATTERS -->
   <section class="section">
     <div class="wrap">
-      <div class="center stack" style="margin-bottom: var(--cv-sp-12);">
+      <div class="center stack reveal" style="margin-bottom: var(--cv-sp-12);">
         <p class="eyebrow">Why this exists</p>
         <h2 class="h2">A virtual professional holds real keys.</h2>
         <p class="lede measure" style="margin-inline:auto;">
@@ -159,8 +160,8 @@
         </p>
       </div>
 
-      <div class="grid grid-3">
-        <article class="card">
+      <div class="grid grid-3" data-reveal-group>
+        <article class="card reveal">
           <div class="stack">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-key"/></svg></div>
             <h3 class="h4">The access you hold</h3>
@@ -170,7 +171,7 @@
             </p>
           </div>
         </article>
-        <article class="card">
+        <article class="card reveal">
           <div class="stack">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg></div>
             <h3 class="h4">Attacks are fast and ordinary</h3>
@@ -180,7 +181,7 @@
             </p>
           </div>
         </article>
-        <article class="card">
+        <article class="card reveal">
           <div class="stack">
             <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg></div>
             <h3 class="h4">You are the control that works</h3>
@@ -197,7 +198,7 @@
   <!-- ========================================================= SIX TOPICS -->
   <section class="section section-soft" id="topics">
     <div class="wrap">
-      <div class="center stack" style="margin-bottom: var(--cv-sp-12);">
+      <div class="center stack reveal" style="margin-bottom: var(--cv-sp-12);">
         <p class="eyebrow">The whole picture</p>
         <h2 class="h2">Nine things every Coconut VA should know</h2>
         <p class="lede measure" style="margin-inline:auto;">
@@ -206,9 +207,9 @@
         </p>
       </div>
 
-      <div class="grid grid-3">
+      <div class="grid grid-3" data-reveal-group>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="topic">
             <div class="topic-head">
               <div class="puck puck-num">1</div>
@@ -223,7 +224,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="topic">
             <div class="topic-head">
               <div class="puck puck-num">2</div>
@@ -238,7 +239,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="topic">
             <div class="topic-head">
               <div class="puck puck-num">3</div>
@@ -253,7 +254,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="topic">
             <div class="topic-head">
               <div class="puck puck-num">4</div>
@@ -268,7 +269,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="topic">
             <div class="topic-head">
               <div class="puck puck-num">5</div>
@@ -283,7 +284,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="topic">
             <div class="topic-head">
               <div class="puck puck-num">6</div>
@@ -298,7 +299,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="topic">
             <div class="topic-head">
               <div class="puck puck-num">7</div>
@@ -313,7 +314,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="topic">
             <div class="topic-head">
               <div class="puck puck-num">8</div>
@@ -328,7 +329,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="topic">
             <div class="topic-head">
               <div class="puck puck-num">9</div>
@@ -350,7 +351,7 @@
   <!-- ====================================================== GROUND RULES -->
   <section class="section" id="ground-rules">
     <div class="wrap wrap-narrow">
-      <div class="center stack" style="margin-bottom: var(--cv-sp-10);">
+      <div class="center stack reveal" style="margin-bottom: var(--cv-sp-10);">
         <p class="eyebrow">Keep this part</p>
         <h2 class="h2">The ground rules</h2>
         <p class="lede measure" style="margin-inline:auto;">
@@ -358,7 +359,7 @@
         </p>
       </div>
 
-      <div class="card card-lg">
+      <div class="card card-lg reveal">
         <ul class="rules">
           <li><span class="tick">&#10003;</span><p class="body"><strong>Slow down when a message is urgent.</strong> Urgency is the most common tool in every attack. A real emergency survives a two-minute check.</p></li>
           <li><span class="tick">&#10003;</span><p class="body"><strong>Verify on a different channel.</strong> If the request came by email, confirm by a call or a chat you already use. Never with the contact details inside the message.</p></li>
@@ -380,7 +381,7 @@
   <!-- ========================================================== RED FLAGS -->
   <section class="section section-cream">
     <div class="wrap">
-      <div class="center stack" style="margin-bottom: var(--cv-sp-10);">
+      <div class="center stack reveal" style="margin-bottom: var(--cv-sp-10);">
         <p class="eyebrow">Pattern recognition</p>
         <h2 class="h2">Red flags, at a glance</h2>
         <p class="lede measure" style="margin-inline:auto;">
@@ -388,19 +389,19 @@
         </p>
       </div>
 
-      <div class="flags">
-        <div class="flag"><span class="dot"></span><span>"Act now" or a countdown to something bad</span></div>
-        <div class="flag"><span class="dot"></span><span>"Keep this between us" or "don't tell the team"</span></div>
-        <div class="flag"><span class="dot"></span><span>A request to skip the usual process or approval</span></div>
-        <div class="flag"><span class="dot"></span><span>New bank details, or a change to where money goes</span></div>
-        <div class="flag"><span class="dot"></span><span>Gift cards, crypto, or an unusual payment method</span></div>
-        <div class="flag"><span class="dot"></span><span>Anyone asking for a password or a 2FA code</span></div>
-        <div class="flag"><span class="dot"></span><span>A familiar name writing from an unfamiliar address</span></div>
-        <div class="flag"><span class="dot"></span><span>A domain that is almost right: rn for m, 0 for o</span></div>
-        <div class="flag"><span class="dot"></span><span>A move to WhatsApp, SMS or a personal number</span></div>
-        <div class="flag"><span class="dot"></span><span>An attachment or link you were not expecting</span></div>
-        <div class="flag"><span class="dot"></span><span>A login page that appeared after a redirect</span></div>
-        <div class="flag"><span class="dot"></span><span>A site telling you to install something to continue</span></div>
+      <div class="flags" data-reveal-group>
+        <div class="flag reveal"><span class="dot"></span><span>"Act now" or a countdown to something bad</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>"Keep this between us" or "don't tell the team"</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>A request to skip the usual process or approval</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>New bank details, or a change to where money goes</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>Gift cards, crypto, or an unusual payment method</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>Anyone asking for a password or a 2FA code</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>A familiar name writing from an unfamiliar address</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>A domain that is almost right: rn for m, 0 for o</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>A move to WhatsApp, SMS or a personal number</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>An attachment or link you were not expecting</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>A login page that appeared after a redirect</span></div>
+        <div class="flag reveal"><span class="dot"></span><span>A site telling you to install something to continue</span></div>
       </div>
     </div>
   </section>
@@ -408,7 +409,7 @@
   <!-- ================================================== IF SOMETHING GOES WRONG -->
   <section class="section">
     <div class="wrap">
-      <div class="center stack" style="margin-bottom: var(--cv-sp-10);">
+      <div class="center stack reveal" style="margin-bottom: var(--cv-sp-10);">
         <p class="eyebrow">When it happens</p>
         <h2 class="h2">If something goes wrong</h2>
         <p class="lede measure" style="margin-inline:auto;">
@@ -417,8 +418,8 @@
         </p>
       </div>
 
-      <div class="steps-row">
-        <article class="card">
+      <div class="steps-row" data-reveal-group>
+        <article class="card reveal">
           <div class="step-card">
             <div class="puck puck-num">1</div>
             <h3 class="h4">Stop</h3>
@@ -428,7 +429,7 @@
             </p>
           </div>
         </article>
-        <article class="card">
+        <article class="card reveal">
           <div class="step-card">
             <div class="puck puck-num">2</div>
             <h3 class="h4">Secure</h3>
@@ -438,7 +439,7 @@
             </p>
           </div>
         </article>
-        <article class="card">
+        <article class="card reveal">
           <div class="step-card">
             <div class="puck puck-num">3</div>
             <h3 class="h4">Report</h3>
@@ -448,7 +449,7 @@
             </p>
           </div>
         </article>
-        <article class="card">
+        <article class="card reveal">
           <div class="step-card">
             <div class="puck puck-num">4</div>
             <h3 class="h4">Preserve</h3>
@@ -460,7 +461,7 @@
         </article>
       </div>
 
-      <div class="callout" style="margin-top: var(--cv-sp-8);">
+      <div class="callout reveal" style="margin-top: var(--cv-sp-8);">
         <div class="puck"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-message"/></svg></div>
         <div class="stack">
           <h3 class="h4">Reporting early is always the right call.</h3>
@@ -477,7 +478,7 @@
   <!-- =============================================================== CTA -->
   <section class="section-sm no-print">
     <div class="wrap">
-      <div class="cta-bar">
+      <div class="cta-bar reveal">
         <div class="stack-lg" style="max-width: 620px;">
           <p class="eyebrow">Practice, don't just read</p>
           <h2 class="h2">Nine steps. About thirty minutes.</h2>
@@ -503,5 +504,6 @@
   </div>
 </footer>
 
+<script src="assets/site.js" defer></script>
 </body>
 </html>

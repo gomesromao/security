@@ -291,12 +291,22 @@ a { color: inherit; }
 
 /* stat strip */
 .stat-strip { background: var(--cv-bg-mint); }
+/* Equal columns are not enough: "9" and "~30 min" are 20px and 130px of ink, so
+   left-aligning inside equal boxes leaves visibly uneven gaps. Centre each cell
+   and divide them, so the rhythm comes from the structure, not the word lengths. */
 .stat-strip .wrap {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: start;
-  gap: var(--cv-sp-8);
+  align-items: center;
+  gap: 0;
   padding-block: var(--cv-sp-10);
+}
+.stat-strip .stat {
+  text-align: center;
+  padding-inline: var(--cv-sp-4);
+}
+.stat-strip .stat + .stat {
+  border-left: 1px solid rgba(11, 30, 63, 0.10);
 }
 .stat-num {
   font-family: var(--cv-font-display);
@@ -401,11 +411,12 @@ a { color: inherit; }
 
   /* stat strip reads as a 2x2 block instead of a sparse row */
   .stat-strip .wrap {
-    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--cv-sp-6) var(--cv-sp-5);
+    gap: var(--cv-sp-6) 0;
     padding-block: var(--cv-sp-8);
   }
+  .stat-strip .stat + .stat { border-left: 0; }
+  .stat-strip .stat:nth-child(even) { border-left: 1px solid rgba(11, 30, 63, 0.10); }
   .stat-label { margin-top: 6px; }
 
   /* rules: keep the tick aligned but claw back horizontal space */
@@ -427,7 +438,8 @@ a { color: inherit; }
 
 @media (max-width: 360px) {
   .btn { padding: 13px 18px; font-size: 14.5px; }
-  .stat-strip .wrap { grid-template-columns: minmax(0, 1fr); gap: var(--cv-sp-5); }
+  .stat-strip .wrap { grid-template-columns: minmax(0, 1fr); gap: var(--cv-sp-5) 0; }
+  .stat-strip .stat:nth-child(even) { border-left: 0; }
 }
 
 /* Declared last so it beats `.btn { display: inline-flex }` at equal specificity. */
@@ -449,4 +461,38 @@ a { color: inherit; }
   .brand { padding-block: 8px; }
   .site-footer a { display: inline-block; padding-block: 8px; }
   .hint { min-height: 38px; }
+}
+
+/* ====================================================================
+   Motion. Restrained on purpose: one short fade and a 14px lift, a soft
+   stagger inside a row, and a header that gains a shadow once you leave
+   the top. Hidden only when JS is present to bring it back, and skipped
+   entirely for anyone who asked for reduced motion.
+   ==================================================================== */
+
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  will-change: opacity, transform;
+}
+.js-reveal .reveal.is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 560ms var(--cv-ease-out) var(--reveal-delay, 0ms),
+              transform 560ms var(--cv-ease-out) var(--reveal-delay, 0ms);
+  will-change: auto;
+}
+
+.site-header {
+  transition: box-shadow var(--cv-dur-base) var(--cv-ease),
+              border-color var(--cv-dur-base) var(--cv-ease);
+}
+.site-header.is-lifted {
+  box-shadow: 0 1px 0 rgba(11, 30, 63, 0.04), 0 8px 24px rgba(11, 30, 63, 0.06);
+  border-bottom-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal .reveal { opacity: 1; transform: none; }
+  .site-header.is-lifted { box-shadow: none; }
 }
