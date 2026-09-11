@@ -92,6 +92,9 @@
     flex: 0 0 auto; width: 7px; height: 7px; border-radius: 999px;
     background: var(--cv-error); margin-top: 7px;
   }
+  /* display:flex outranks the browser's own [hidden] rule, so the empty
+     box would otherwise sit there on first load. */
+  .signin-error[hidden] { display: none; }
 
   .signin-foot {
     margin-top: var(--cv-sp-6);
