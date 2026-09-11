@@ -497,26 +497,72 @@ a { color: inherit; }
   .site-header.is-lifted { box-shadow: none; }
 }
 
-/* -------------------------------------------------- account chip
-   Appended to the header by site.js once we know who is reading. The
-   name drops out on small screens; the way out never does. */
-.account-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding-left: 10px;
-  margin-left: 2px;
-  border-left: 1px solid var(--cv-border);
+/* -------------------------------------------------- account menu
+   Injected into the header by site.js once we know who is reading. An
+   initials disc, and a panel under it holding the name and the way out.
+   Everything stays inside the viewport on a phone, so no sheet needed. */
+.account { position: relative; display: inline-flex; }
+
+.account-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; padding: 0;
+  border: 0; border-radius: var(--cv-radius-pill);
+  background: var(--cv-navy-800); color: var(--cv-fg-inverse);
+  font-family: var(--cv-font-display);
+  font-size: 13px; font-weight: 800; letter-spacing: .02em;
+  cursor: pointer;
+  transition: background var(--cv-dur-base) var(--cv-ease),
+              box-shadow var(--cv-dur-base) var(--cv-ease);
 }
-.account-name {
-  font-size: 13.5px;
-  font-weight: 700;
+.account-btn:hover,
+.account-btn[aria-expanded="true"] {
+  background: var(--cv-navy-600);
+  box-shadow: var(--cv-shadow-sm);
+}
+.account-btn:focus-visible { outline: 3px solid var(--cv-green-500); outline-offset: 2px; }
+
+.account-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 50;
+  min-width: 214px;
+  max-width: min(280px, calc(100vw - 32px));
+  padding: 14px;
+  text-align: left;
+  background: var(--cv-bg);
+  border: 1px solid var(--cv-border);
+  border-radius: var(--cv-radius-md);
+  box-shadow: var(--cv-shadow-md);
+}
+/* display is set above, so the browser's own [hidden] rule needs help. */
+.account-menu[hidden] { display: none; }
+
+.account-menu-name,
+.account-menu-email {
+  margin: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.account-menu-name { font-size: 14.5px; font-weight: 700; color: var(--cv-fg-1); }
+.account-menu-email { margin-top: 2px; font-size: 12.5px; color: var(--cv-fg-3); }
+
+.account-signout {
+  display: block;
+  width: calc(100% + 28px);
+  margin: 12px -14px -14px;
+  padding: 11px 14px 13px;
+  text-align: left;
+  font-family: var(--cv-font-body);
+  font-size: 14px; font-weight: 700;
   color: var(--cv-fg-2);
-  white-space: nowrap;
-  max-width: 140px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--cv-border-soft);
+  border-radius: 0 0 var(--cv-radius-md) var(--cv-radius-md);
+  cursor: pointer;
+  transition: background var(--cv-dur-base) var(--cv-ease),
+              color var(--cv-dur-base) var(--cv-ease);
 }
-@media (max-width: 560px) {
-  .account-chip { padding-left: 6px; gap: 6px; }
-}
+.account-signout:hover { background: var(--cv-bg-soft); color: var(--cv-error); }
+.account-signout:focus-visible { outline: 3px solid var(--cv-green-500); outline-offset: -3px; }
+.account-signout[disabled] { color: var(--cv-fg-3); cursor: default; background: none; }

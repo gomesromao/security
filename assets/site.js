@@ -67,11 +67,98 @@
   }
 
 
-  /* ------------------------------------------------- account chip */
+  /* ------------------------------------------------- account menu */
   // Who is reading. The gate already guaranteed there is a session, so
-  // this is presentation only: a name to greet, and a way out. If the
-  // call fails the header simply stays as it was.
-  function accountChip() {
+  // this is presentation only: an initials disc, and a panel under it
+  // with the name and the way out. If the call fails the header simply
+  // stays as it was.
+  function initialsFrom(name, email) {
+    var source = (name || "").trim();
+    if (source) {
+      var parts = source.split(/\s+/);
+      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+      return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+    }
+    return (email || "?").charAt(0).toUpperCase();
+  }
+
+  function buildAccount(user) {
+    var name = user.name || "";
+    var email = user.email || "";
+
+    var root = document.createElement("div");
+    root.className = "account no-print";
+
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "account-btn";
+    button.setAttribute("aria-haspopup", "true");
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Account" + (name ? ", " + name : ""));
+    button.title = name || email;
+    button.textContent = initialsFrom(name, email);
+
+    var menu = document.createElement("div");
+    menu.className = "account-menu";
+    menu.hidden = true;
+
+    if (name) {
+      var nameEl = document.createElement("p");
+      nameEl.className = "account-menu-name";
+      nameEl.textContent = name;
+      menu.appendChild(nameEl);
+    }
+    if (email) {
+      var emailEl = document.createElement("p");
+      emailEl.className = "account-menu-email";
+      emailEl.textContent = email;
+      menu.appendChild(emailEl);
+    }
+
+    var signout = document.createElement("button");
+    signout.type = "button";
+    signout.className = "account-signout";
+    signout.textContent = "Sign out";
+    menu.appendChild(signout);
+
+    root.appendChild(button);
+    root.appendChild(menu);
+
+    function open(state) {
+      menu.hidden = !state;
+      button.setAttribute("aria-expanded", state ? "true" : "false");
+    }
+
+    button.addEventListener("click", function (event) {
+      event.stopPropagation();
+      open(menu.hidden);
+      if (!menu.hidden) signout.focus();
+    });
+
+    // Anywhere else, or Escape, puts it away. Escape hands focus back to
+    // the disc so keyboard users are not dropped at the top of the page.
+    document.addEventListener("click", function (event) {
+      if (!menu.hidden && !root.contains(event.target)) open(false);
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !menu.hidden) {
+        open(false);
+        button.focus();
+      }
+    });
+
+    signout.addEventListener("click", function () {
+      signout.disabled = true;
+      signout.textContent = "Signing out...";
+      fetch("/api/logout", { method: "POST", credentials: "same-origin" })
+        .catch(function () {})
+        .then(function () { window.location.replace("/login"); });
+    });
+
+    return root;
+  }
+
+  function accountMenu() {
     var actions = document.querySelector(".site-header .header-actions");
     if (!actions || !window.fetch) return;
 
@@ -79,33 +166,7 @@
       .then(function (response) { return response.ok ? response.json() : null; })
       .then(function (data) {
         if (!data || !data.user) return;
-
-        var who = data.user.name || data.user.email || "";
-        var wrap = document.createElement("div");
-        wrap.className = "account-chip no-print";
-
-        if (who) {
-          var label = document.createElement("span");
-          label.className = "account-name hide-sm";
-          label.textContent = who.split(" ")[0];
-          label.title = data.user.email || who;
-          wrap.appendChild(label);
-        }
-
-        var out = document.createElement("button");
-        out.type = "button";
-        out.className = "btn btn-ghost btn-sm";
-        out.textContent = "Sign out";
-        out.addEventListener("click", function () {
-          out.disabled = true;
-          out.textContent = "Signing out...";
-          fetch("/api/logout", { method: "POST", credentials: "same-origin" })
-            .catch(function () {})
-            .then(function () { window.location.replace("/login"); });
-        });
-        wrap.appendChild(out);
-
-        actions.appendChild(wrap);
+        actions.appendChild(buildAccount(data.user));
       })
       .catch(function () {});
   }
@@ -113,7 +174,7 @@
   function start() {
     reveal();
     headerLift();
-    accountChip();
+    accountMenu();
   }
 
   if (document.readyState === "loading") {
