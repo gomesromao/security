@@ -1,0 +1,8 @@
+{
+  "name": "coconut-security",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@vercel/edge": "^1.2.1"
+  }
+}

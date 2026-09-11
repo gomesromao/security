@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in | Coconut Security Essentials</title>
+<meta name="description" content="Sign in with your Coconut Hub account to read the Coconut security essentials.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  .signin-shell {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    background:
+      radial-gradient(60% 55% at 50% 0%, var(--cv-green-100) 0%, rgba(222,242,230,0) 64%),
+      var(--cv-bg);
+  }
+  .signin-main {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: clamp(32px, 6vw, 72px) var(--cv-sp-5);
+  }
+  .signin-card {
+    width: 100%; max-width: 432px;
+    background: var(--cv-bg);
+    border: 1px solid var(--cv-border);
+    border-radius: var(--cv-radius-lg);
+    box-shadow: var(--cv-shadow-md);
+    padding: clamp(26px, 4vw, 38px);
+  }
+  .signin-mark {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: var(--cv-sp-6);
+  }
+  .signin-mark img { height: 26px; width: auto; }
+  .signin-mark .brand-divider {
+    width: 1px; height: 20px; background: var(--cv-border);
+  }
+  .signin-mark span.label {
+    font-size: 14px; font-weight: 700; color: var(--cv-fg-2); letter-spacing: .01em;
+  }
+  .signin-card h1 {
+    font-family: var(--cv-font-display);
+    font-size: 25px; line-height: 1.25; font-weight: 800;
+    color: var(--cv-fg-1); margin: 0 0 10px;
+  }
+  .signin-card .sub {
+    font-size: 14.5px; line-height: 1.55; color: var(--cv-fg-3);
+    margin: 0 0 var(--cv-sp-6);
+  }
+
+  .field { margin-bottom: var(--cv-sp-4); }
+  .field label {
+    display: block; font-size: 13px; font-weight: 700;
+    color: var(--cv-fg-2); margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%; box-sizing: border-box;
+    font-family: var(--cv-font-body); font-size: 15px;
+    color: var(--cv-fg-1); background: var(--cv-bg);
+    border: 1px solid var(--cv-border);
+    border-radius: var(--cv-radius-sm);
+    padding: 12px 14px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .field input:hover { border-color: #D4D8E2; }
+  .field input:focus {
+    outline: none;
+    border-color: var(--cv-green-600);
+    box-shadow: 0 0 0 3px var(--cv-green-100);
+  }
+  .field input:disabled { background: var(--cv-bg-soft); color: var(--cv-fg-3); }
+
+  .signin-card .btn { width: 100%; justify-content: center; margin-top: var(--cv-sp-2); }
+
+  .signin-error {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: #FDF0F0;
+    border: 1px solid rgba(229,75,75,.28);
+    border-radius: var(--cv-radius-sm);
+    padding: 11px 13px;
+    margin-bottom: var(--cv-sp-4);
+    font-size: 14px; line-height: 1.45; color: #8E2B2B; font-weight: 600;
+  }
+  .signin-error .dot {
+    flex: 0 0 auto; width: 7px; height: 7px; border-radius: 999px;
+    background: var(--cv-error); margin-top: 7px;
+  }
+
+  .signin-foot {
+    margin-top: var(--cv-sp-6);
+    padding-top: var(--cv-sp-5);
+    border-top: 1px solid var(--cv-border-soft);
+    font-size: 13px; line-height: 1.55; color: var(--cv-fg-3);
+  }
+  .signin-note {
+    text-align: center; font-size: 12.5px; color: var(--cv-fg-3);
+    padding: 0 var(--cv-sp-5) var(--cv-sp-8);
+  }
+</style>
+</head>
+<body>
+
+<div class="signin-shell">
+  <main class="signin-main">
+    <div class="signin-card">
+
+      <div class="signin-mark">
+        <img src="assets/logo-navy.png" alt="Coconut">
+        <span class="brand-divider"></span>
+        <span class="label">Security Essentials</span>
+      </div>
+
+      <h1>Sign in to continue</h1>
+      <p class="sub">Use the same email and password you use for Coconut Hub. Nothing new to remember.</p>
+
+      <div class="signin-error" id="error" hidden>
+        <span class="dot"></span>
+        <span id="error-text"></span>
+      </div>
+
+      <form id="signin-form" novalidate>
+        <div class="field">
+          <label for="email">Work email</label>
+          <input type="email" id="email" name="email" autocomplete="username"
+                 inputmode="email" autocapitalize="none" spellcheck="false" required>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password"
+                 autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-primary" type="submit" id="submit">Sign in</button>
+      </form>
+
+      <p class="signin-foot">
+        Forgot your password? Reset it in Coconut Hub, then come back here.
+        Your password is checked against Hub and is never stored by this site.
+      </p>
+
+    </div>
+  </main>
+
+  <p class="signin-note">Coconut Security Essentials. For Coconut virtual professionals only.</p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var form = document.getElementById("signin-form");
+  var emailEl = document.getElementById("email");
+  var passEl = document.getElementById("password");
+  var button = document.getElementById("submit");
+  var errorBox = document.getElementById("error");
+  var errorText = document.getElementById("error-text");
+
+  /* Only ever bounce back to a path on this site. An absolute URL, or
+     anything starting "//", is dropped on the floor. */
+  function safeNext() {
+    var raw = new URLSearchParams(window.location.search).get("next");
+    if (!raw || raw.charAt(0) !== "/" || raw.charAt(1) === "/" || raw.charAt(1) === "\\") return "/";
+    return raw;
+  }
+
+  function showError(message) {
+    errorText.textContent = message;
+    errorBox.hidden = false;
+  }
+
+  function clearError() { errorBox.hidden = true; }
+
+  function busy(on) {
+    button.disabled = on;
+    emailEl.disabled = on;
+    passEl.disabled = on;
+    button.textContent = on ? "Signing in..." : "Sign in";
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    clearError();
+
+    var email = emailEl.value.trim();
+    var password = passEl.value;
+
+    if (!email || !password) {
+      showError("Enter your email and your password.");
+      return;
+    }
+
+    busy(true);
+
+    fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ email: email, password: password })
+    })
+      .then(function (response) {
+        return response.json().catch(function () { return {}; }).then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (result.ok) {
+          window.location.replace(safeNext());
+          return;
+        }
+        busy(false);
+        passEl.value = "";
+        showError(result.data.error || "Something went wrong. Try again.");
+        passEl.focus();
+      })
+      .catch(function () {
+        busy(false);
+        showError("No connection. Check your internet and try again.");
+      });
+  });
+
+  emailEl.focus();
+})();
+</script>
+
+</body>
+</html>

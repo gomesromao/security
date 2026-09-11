@@ -66,9 +66,54 @@
     apply();
   }
 
+
+  /* ------------------------------------------------- account chip */
+  // Who is reading. The gate already guaranteed there is a session, so
+  // this is presentation only: a name to greet, and a way out. If the
+  // call fails the header simply stays as it was.
+  function accountChip() {
+    var actions = document.querySelector(".site-header .header-actions");
+    if (!actions || !window.fetch) return;
+
+    fetch("/api/me", { credentials: "same-origin" })
+      .then(function (response) { return response.ok ? response.json() : null; })
+      .then(function (data) {
+        if (!data || !data.user) return;
+
+        var who = data.user.name || data.user.email || "";
+        var wrap = document.createElement("div");
+        wrap.className = "account-chip no-print";
+
+        if (who) {
+          var label = document.createElement("span");
+          label.className = "account-name hide-sm";
+          label.textContent = who.split(" ")[0];
+          label.title = data.user.email || who;
+          wrap.appendChild(label);
+        }
+
+        var out = document.createElement("button");
+        out.type = "button";
+        out.className = "btn btn-ghost btn-sm";
+        out.textContent = "Sign out";
+        out.addEventListener("click", function () {
+          out.disabled = true;
+          out.textContent = "Signing out...";
+          fetch("/api/logout", { method: "POST", credentials: "same-origin" })
+            .catch(function () {})
+            .then(function () { window.location.replace("/login"); });
+        });
+        wrap.appendChild(out);
+
+        actions.appendChild(wrap);
+      })
+      .catch(function () {});
+  }
+
   function start() {
     reveal();
     headerLift();
+    accountChip();
   }
 
   if (document.readyState === "loading") {

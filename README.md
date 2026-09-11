@@ -75,18 +75,59 @@ disappears at tab size; the shape is unchanged, only the ground behind it.
 
 No copy anywhere uses an em-dash.
 
+## Signing in
+
+Both deliverables sit behind a sign-in. Readers use **the same email and password they
+already use for Coconut Hub**, so there is no second account to provision and nothing for
+anyone to remember. Any of the Hub's auth accounts can get in.
+
+Nothing was added to, or changed in, the Coconut Hub project to make this work. The whole
+integration is read-only against Hub's auth:
+
+1. The reader posts their credentials to `/api/login`, a function running on our side.
+2. That function checks them against Hub's token endpoint, then reads the reader's **own**
+   row from `public.users` for a display name. That read rides the `users_select_own_or_hr`
+   policy Hub already had, using the reader's own token, so it can only ever see their own
+   row.
+3. The temporary Hub session is revoked immediately with `scope=local`, which leaves every
+   other Hub session the reader has open exactly as it was.
+4. What the browser receives is a session for **this site only**: an HMAC-signed cookie,
+   `HttpOnly` / `Secure` / `SameSite=Lax`, good for twelve hours.
+
+The point of step 3 and 4: **the Hub API key and the Hub access token never reach the
+browser.** They exist for the length of one server-side request and are dropped. A stolen
+cookie from this site is worth nothing against Hub. A wrong email and a wrong password
+produce the same message, so the page cannot be used to find out who works here.
+
+`middleware.js` is the gate. Everything is behind it except the sign-in page, the assets
+needed to draw it, and `/api/*` (those functions authenticate themselves). If
+`SESSION_SECRET` is ever missing, the gate returns 503 rather than falling open.
+
+### Environment variables
+
+| Name | What it is |
+|---|---|
+| `HUB_URL` | The Coconut Hub Supabase URL, no trailing slash |
+| `HUB_ANON_KEY` | Hub's anon key. Server-side only here, never shipped to the browser |
+| `SESSION_SECRET` | A long random string, ours alone. Rotating it signs everyone out |
+
+None of the three are in this repository, and the repository is public. Set them in the
+Vercel project.
+
 ## Deliberately not included
 
-- **No login.** Nothing to sign into, nothing to provision. If the course is approved we
-  can revisit accounts and real completion tracking then.
+- **No accounts of our own.** Sign-in borrows Hub's, so there is no second user table, no
+  password reset flow and no provisioning. Forgotten passwords get reset in Hub.
 - **No tracking or analytics.** Nothing is sent anywhere. Course progress is kept in the
   visitor's own browser (`localStorage`), so someone can stop and pick up where they left
   off, and that is the only state that exists.
-- **No build step.** Static HTML, CSS and one inline script. No dependencies, no bundler.
+- **No bundler.** Static HTML and CSS, one small script, three short functions. The only
+  dependency is `@vercel/edge`, used by the gate.
 
 ## Running it
 
-Any static server will do:
+The pages themselves are still plain static files, so a static server renders them with
+the gate out of the picture, which is the quickest way to work on content:
 
 ```bash
 python -m http.server 8000
@@ -94,13 +135,20 @@ python -m http.server 8000
 # → http://127.0.0.1:8000/course/  the course
 ```
 
-Opening `index.html` straight from disk also works.
+To exercise the sign-in and the gate as well, run the Vercel dev server instead, with the
+three variables above set in `.env.local`:
+
+```bash
+npx vercel dev
+# → http://localhost:3000/login
+```
 
 ## Deploying
 
-The whole repository is the site. Publish it as-is to GitHub Pages, Vercel, Netlify or
-anything else that serves static files. No configuration, no environment variables, no
-build command.
+Vercel, from `main`. The static files are served as they are and there is no build command,
+but the project does need the three environment variables above and the two pieces that use
+them: `middleware.js` at the root and the functions in `api/`. A host that only serves
+static files would still render both deliverables, without the sign-in.
 
 ## Content credit
 
