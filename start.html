@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sign in | Coconut Security Essentials</title>
-<meta name="description" content="Sign in with your Coconut Hub account to read the Coconut security essentials.">
+<title>Start the course | Coconut Security Essentials</title>
+<meta name="description" content="Enter your work email to start the Coconut Security Essentials course.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
@@ -103,46 +103,40 @@
   <main class="signin-main">
     <div class="signin-card">
 
-      <h1>Sign in to continue</h1>
-      <p class="sub">Use the same email and password you use for Coconut Hub. Nothing new to remember.</p>
+      <h1>Start the course</h1>
+      <p class="sub">Enter the work email you use for Coconut Hub. No password, and nothing new to remember. We use it to keep your place and to tell the team when you finish.</p>
 
       <div class="signin-error" id="error" hidden>
         <span class="dot"></span>
         <span id="error-text"></span>
       </div>
 
-      <form id="signin-form" novalidate>
+      <form id="start-form" novalidate>
         <div class="field">
           <label for="email">Work email</label>
-          <input type="email" id="email" name="email" autocomplete="username"
+          <input type="email" id="email" name="email" autocomplete="email"
                  inputmode="email" autocapitalize="none" spellcheck="false" required>
         </div>
-        <div class="field">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password"
-                 autocomplete="current-password" required>
-        </div>
-        <button class="btn btn-primary" type="submit" id="submit">Sign in</button>
+        <button class="btn btn-primary" type="submit" id="submit">Start the course</button>
       </form>
 
       <p class="signin-foot">
-        Forgot your password? Reset it in Coconut Hub, then come back here.
-        Your password is checked against Hub and is never stored by this site.
+        The <a href="/">one-page summary</a> is open to everyone and needs no email at all.
+        Only the nine-step course asks for one.
       </p>
 
     </div>
   </main>
 
-  <p class="signin-note">Coconut Security Essentials. For Coconut virtual professionals only.</p>
+  <p class="signin-note">Coconut Security Essentials. For Coconut virtual professionals.</p>
 </div>
 
 <script>
 (function () {
   "use strict";
 
-  var form = document.getElementById("signin-form");
+  var form = document.getElementById("start-form");
   var emailEl = document.getElementById("email");
-  var passEl = document.getElementById("password");
   var button = document.getElementById("submit");
   var errorBox = document.getElementById("error");
   var errorText = document.getElementById("error-text");
@@ -151,7 +145,7 @@
      anything starting "//", is dropped on the floor. */
   function safeNext() {
     var raw = new URLSearchParams(window.location.search).get("next");
-    if (!raw || raw.charAt(0) !== "/" || raw.charAt(1) === "/" || raw.charAt(1) === "\\") return "/";
+    if (!raw || raw.charAt(0) !== "/" || raw.charAt(1) === "/" || raw.charAt(1) === "\\") return "/course/";
     return raw;
   }
 
@@ -165,8 +159,7 @@
   function busy(on) {
     button.disabled = on;
     emailEl.disabled = on;
-    passEl.disabled = on;
-    button.textContent = on ? "Signing in..." : "Sign in";
+    button.textContent = on ? "One moment..." : "Start the course";
   }
 
   form.addEventListener("submit", function (event) {
@@ -174,20 +167,18 @@
     clearError();
 
     var email = emailEl.value.trim();
-    var password = passEl.value;
-
-    if (!email || !password) {
-      showError("Enter your email and your password.");
+    if (!email) {
+      showError("Enter your work email address.");
       return;
     }
 
     busy(true);
 
-    fetch("/api/login", {
+    fetch("/api/enroll", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "same-origin",
-      body: JSON.stringify({ email: email, password: password })
+      body: JSON.stringify({ email: email })
     })
       .then(function (response) {
         return response.json().catch(function () { return {}; }).then(function (data) {
@@ -200,9 +191,8 @@
           return;
         }
         busy(false);
-        passEl.value = "";
         showError(result.data.error || "Something went wrong. Try again.");
-        passEl.focus();
+        emailEl.focus();
       })
       .catch(function () {
         busy(false);

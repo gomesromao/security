@@ -68,10 +68,10 @@
 
 
   /* ------------------------------------------------- account menu */
-  // Who is reading. The gate already guaranteed there is a session, so
-  // this is presentation only: an initials disc, and a panel under it
-  // with the name and the way out. If the call fails the header simply
-  // stays as it was.
+  // Who is reading. Presentation only: an initials disc, and a panel under
+  // it with the name and the way out. The home page is open to everyone, so
+  // on most visits there is no session and nothing appears. If the call
+  // fails the header simply stays as it was.
   function initialsFrom(name, email) {
     var source = (name || "").trim();
     if (source) {
@@ -152,7 +152,7 @@
       signout.textContent = "Signing out...";
       fetch("/api/logout", { method: "POST", credentials: "same-origin" })
         .catch(function () {})
-        .then(function () { window.location.replace("/login"); });
+        .then(function () { window.location.replace("/"); });
     });
 
     return root;

@@ -14,6 +14,6 @@ export default async function handler(req, res) {
   if (!session) return res.status(401).json({ error: "Not signed in." });
 
   return res.status(200).json({
-    user: { name: session.name || "", email: session.email || "", role: session.role || null }
+    user: { name: session.name || "", email: session.email || "" }
   });
 }

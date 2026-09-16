@@ -1591,6 +1591,28 @@
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
   }
 
+  /* --------------------------------------------------- progress, quietly */
+  // The browser remembers where you are so the course works offline and on
+  // a blocked-storage phone. This also tells the server, so the team can see
+  // who is partway through and who has finished.
+  //
+  // Fire and forget, on purpose. No spinner, no error, no retry, nothing
+  // that can change what the page does. If the call never lands, the reader
+  // never knows and the course carries on exactly as before.
+  function report(step, completed) {
+    if (!window.fetch) return;
+    try {
+      var request = fetch("/api/progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        keepalive: true,
+        body: JSON.stringify({ step: step, completed: completed === true })
+      });
+      if (request && request.catch) request.catch(function () {});
+    } catch (e) { /* nothing to do, and nothing worth saying */ }
+  }
+
   /* ------------------------------------------------------------- gates */
   var GATES = {
     1: ["flags"],
@@ -1678,7 +1700,14 @@
   function goNext(from) {
     state.done[from] = true;
     save();
-    show(from + 1 > TOTAL ? TOTAL + 1 : from + 1);
+
+    var to = from + 1 > TOTAL ? TOTAL + 1 : from + 1;
+    show(to);
+
+    // The last Continue is the one that finishes the course, and it is the
+    // only thing that sends the team an email. Going back and forward again
+    // costs nothing: the server keeps the first completion and sends once.
+    report(Math.min(from + 1, TOTAL), to === TOTAL + 1);
   }
 
   /* ------------------------------------------------------- shared bits */
@@ -1944,7 +1973,9 @@
   });
 
   document.getElementById("btn-start").addEventListener("click", function () {
-    show(Math.min(Math.max(state.current, 1), TOTAL));
+    var n = Math.min(Math.max(state.current, 1), TOTAL);
+    show(n);
+    report(n, false);
   });
 
   function reset() {

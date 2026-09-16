@@ -1,6 +1,10 @@
 {
   "rewrites": [
-    { "source": "/login", "destination": "/login.html" }
+    { "source": "/start", "destination": "/start.html" }
+  ],
+  "redirects": [
+    { "source": "/login", "destination": "/start", "permanent": false },
+    { "source": "/login.html", "destination": "/start", "permanent": false }
   ],
   "headers": [
     {

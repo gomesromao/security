@@ -75,52 +75,106 @@ disappears at tab size; the shape is unchanged, only the ground behind it.
 
 No copy anywhere uses an em-dash.
 
-## Signing in
+## Who gets in, and what we record
 
-Both deliverables sit behind a sign-in. Readers use **the same email and password they
-already use for Coconut Hub**, so there is no second account to provision and nothing for
-anyone to remember. Any of the Hub's auth accounts can get in.
+The **one-pager at `/` is open.** No email, no gate. It is the summary we want people to
+read, keep and pass on, and putting a door in front of that only reduces the number of
+people who read it.
 
-Nothing was added to, or changed in, the Coconut Hub project to make this work. The whole
-integration is read-only against Hub's auth:
+**The course at `/course/` asks for an email.** There is no password. A reader types the
+work email they already use for Coconut Hub, and if Coconut Hub knows that address they
+are in, for thirty days.
 
-1. The reader posts their credentials to `/api/login`, a function running on our side.
-2. That function checks them against Hub's token endpoint, then reads the reader's **own**
-   row from `public.users` for a display name. That read rides the `users_select_own_or_hr`
-   policy Hub already had, using the reader's own token, so it can only ever see their own
-   row.
-3. The temporary Hub session is revoked immediately with `scope=local`, which leaves every
-   other Hub session the reader has open exactly as it was.
-4. What the browser receives is a session for **this site only**: an HMAC-signed cookie,
-   `HttpOnly` / `Secure` / `SameSite=Lax`, good for twelve hours.
+Be clear about what that is: **identification, not authentication.** It tells us who is
+taking the course and keeps the material off the open web. It does not prove the person at
+the keyboard owns that mailbox, and it is not meant to. Nothing behind the door is worth
+more than the one-pager that is already public, and the thing we actually need is a list of
+who has done the training.
 
-The point of step 3 and 4: **the Hub API key and the Hub access token never reach the
-browser.** They exist for the length of one server-side request and are dropped. A stolen
-cookie from this site is worth nothing against Hub. A wrong email and a wrong password
-produce the same message, so the page cannot be used to find out who works here.
+### What happens on the way in
 
-`middleware.js` is the gate. Everything is behind it except the sign-in page, the assets
-needed to draw it, and `/api/*` (those functions authenticate themselves). If
-`SESSION_SECRET` is ever missing, the gate returns 503 rather than falling open.
+1. The reader posts their address to `/api/enroll`, a function on our side.
+2. That function calls one Coconut Hub edge function, `security-course`, over a shared
+   secret. The edge function looks the address up in Hub's `public.users` and answers yes
+   or no.
+3. On a yes, the browser receives a session for **this site only**: an HMAC-signed cookie,
+   `HttpOnly` / `Secure` / `SameSite=Lax`, good for thirty days.
+
+This site holds **no Coconut Hub key of any kind**. Not the anon key, not the service role.
+The only credential it has for Hub is the shared secret for that one edge function, and the
+worst anyone can do with it is record course progress. It cannot read the Hub, cannot write
+anything else, and cannot sign in as anyone.
+
+`middleware.js` is the gate, and its protected list is one line: `/course`. If
+`SESSION_SECRET` is ever missing it returns 503 rather than falling open.
+
+The honest weak spot: an endpoint that answers "is this address a Coconut account" is an
+endpoint somebody can use to find out who works here, one guess at a time. `/api/enroll`
+carries two brakes, an origin check and a window in memory, and neither is a wall. The
+window lives in one warm Vercel instance, so a caller spread across instances gets around
+it. It catches the lazy case. If this ever needs to be real, it needs a shared store and
+probably a code sent to the address, not a bigger number in the file.
+
+### What gets stored
+
+One row per person, in one new table on Coconut Hub, `public.security_course_progress`:
+their email, their name, the furthest step they reached, when they started, when they were
+last seen, and when they finished.
+
+The course page posts to `/api/progress` every time someone moves forward. It is silent by
+design: no spinner, no error, no retry, nothing that can interrupt somebody halfway through
+a security course. If the call fails, the reader never knows and the course carries on.
+Identity comes from the signed cookie, never from the request body, so the only thing a
+browser can influence is its own step number.
+
+Steps only ever move forward, and a completion timestamp is never overwritten.
+
+### The completion email
+
+The first time somebody reaches the end, one email goes to **daniel@**, **jeem@** and
+**hr@**, from `hr@coconutva.com` through Resend. It names the person, their email, when
+they finished, and that they covered nine of nine steps.
+
+Once per person, ever. The right to send it is claimed with an atomic update inside
+Postgres, so two requests arriving together cannot produce two emails.
+
+### What was added to Coconut Hub
+
+Additively, and nothing else was touched:
+
+- `public.security_course_progress`, a new table. RLS on. **No policy grants an insert, an
+  update or a delete to anybody**, so the only writer is the service role inside the edge
+  function. HR can read it (`is_user_hr(auth.uid())`, the helper Hub already uses), and
+  `anon` has no grant on it at all.
+- `security_course_record()` and `security_course_claim_notification()`, two
+  `security definer` functions, execute revoked from `public`, `anon` and `authenticated`,
+  granted only to `service_role`.
+- `security-course`, a new edge function. Source lives in this repo under
+  `supabase/functions/` so it is not only in the dashboard. No CORS header, on purpose: it
+  is server to server only and a browser can never call it.
+
+No existing table, policy, function or edge function was modified.
 
 ### Environment variables
 
-| Name | What it is |
-|---|---|
-| `HUB_URL` | The Coconut Hub Supabase URL, no trailing slash |
-| `HUB_ANON_KEY` | Hub's anon key. Server-side only here, never shipped to the browser |
-| `SESSION_SECRET` | A long random string, ours alone. Rotating it signs everyone out |
+| Name | Where | What it is |
+|---|---|---|
+| `HUB_URL` | Vercel | The Coconut Hub Supabase URL, no trailing slash |
+| `SESSION_SECRET` | Vercel | A long random string, ours alone. Rotating it signs everyone out |
+| `COURSE_API_SECRET` | Vercel **and** Hub | The shared secret for the `security-course` edge function. The same value has to be set in both places |
 
-None of the three are in this repository, and the repository is public. Set them in the
-Vercel project.
+`HUB_ANON_KEY` is no longer used and can be removed from the project.
+
+None of these are in this repository, and the repository is public.
 
 ## Deliberately not included
 
-- **No accounts of our own.** Sign-in borrows Hub's, so there is no second user table, no
-  password reset flow and no provisioning. Forgotten passwords get reset in Hub.
-- **No tracking or analytics.** Nothing is sent anywhere. Course progress is kept in the
-  visitor's own browser (`localStorage`), so someone can stop and pick up where they left
-  off, and that is the only state that exists.
+- **No accounts of our own.** No second user table, no passwords, no reset flow, nothing to
+  provision. The door checks an address against Hub and that is all.
+- **No tracking or analytics.** No third party sees anything. The course still keeps its
+  own state in the visitor's browser (`localStorage`), which is what lets it work offline
+  and on a phone with storage blocked. The only thing that leaves the page is the step
+  number, to our own function, so the team can see who has done the training.
 - **No bundler.** Static HTML and CSS, one small script, three short functions. The only
   dependency is `@vercel/edge`, used by the gate.
 
@@ -135,20 +189,26 @@ python -m http.server 8000
 # → http://127.0.0.1:8000/course/  the course
 ```
 
-To exercise the sign-in and the gate as well, run the Vercel dev server instead, with the
-three variables above set in `.env.local`:
+To exercise the door and the gate as well, run the Vercel dev server instead, with the
+variables above set in `.env.local`:
 
 ```bash
 npx vercel dev
-# → http://localhost:3000/login
+# → http://localhost:3000/start
 ```
 
 ## Deploying
 
 Vercel, from `main`. The static files are served as they are and there is no build command,
-but the project does need the three environment variables above and the two pieces that use
-them: `middleware.js` at the root and the functions in `api/`. A host that only serves
-static files would still render both deliverables, without the sign-in.
+but the project does need the environment variables above and the two pieces that use them:
+`middleware.js` at the root and the functions in `api/`. A host that only serves static
+files would still render both deliverables, with the course ungated.
+
+The Hub edge function deploys separately:
+
+```bash
+npx supabase functions deploy security-course   --project-ref liknubnqxglsfkzfgyid --no-verify-jwt
+```
 
 ## Content credit
 
