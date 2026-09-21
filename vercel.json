@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/syllabus.js": {
+      "includeFiles": "course/**"
+    }
+  },
   "rewrites": [
     { "source": "/start", "destination": "/start.html" }
   ],

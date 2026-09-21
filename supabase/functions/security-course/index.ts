@@ -51,38 +51,43 @@ const NOTIFY = OVERRIDE.length ? OVERRIDE : TEAM;
    the owners of the material are the one group locked out of it. */
 const ALWAYS_ALLOWED = TEAM;
 const FROM = "Coconut Security <hr@coconutva.com>";
-const SITE_URL = "https://coconut-security.vercel.app";
+/* The site moved to its own domain on 16 September and this constant did not
+   follow, so the "Course:" link in every completion email since has pointed at
+   a Vercel address that answers DEPLOYMENT_NOT_FOUND. Fixed here rather than
+   left alone because the certificate now fetches from the same origin, and a
+   wrong host would have meant no certificate at all rather than a dead link. */
+const SITE_URL = "https://security-awareness.coconutva.com";
 const COURSE_URL = SITE_URL + "/course/";
 const TOTAL_STEPS = 9;
 
 /* The certificate names every topic, and the topics are only ever written in
-   one place: the course page itself. Fetched and parsed rather than copied,
-   so renaming a step renames it on every certificate issued afterwards with
-   nobody having to remember a second list exists. Cached per warm instance. */
+   one place: the course page itself.
+
+   Read through /api/syllabus rather than by fetching /course/ directly. The
+   course is behind the gate, so an unauthenticated fetch of it returns a 307
+   to /start and would have parsed to nothing. That route reads the same HTML
+   from disk and hands back the headings, which keeps one source of truth and
+   still lets this function see it. Cached per warm instance. */
 let syllabusCache: { n: number; title: string }[] | null = null;
 
 async function loadSyllabus() {
   if (syllabusCache) return syllabusCache;
-  const resp = await fetch(COURSE_URL, { headers: { "Cache-Control": "no-cache" } });
-  if (!resp.ok) throw new Error("course page " + resp.status);
-  const html = await resp.text();
-  const steps: { n: number; title: string }[] = [];
-  const re = /data-step="(\d+)"[\s\S]*?<h2[^>]*>([\s\S]*?)<\/h2>/g;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(html)) !== null) {
-    const title = m[2]
-      .replace(/<[^>]+>/g, "")
-      .replace(/&amp;/g, "&")
-      .replace(/&nbsp;/g, " ")
-      .replace(/&#39;|&rsquo;/g, "’")
-      .trim();
-    if (title) steps.push({ n: Number(m[1]), title });
-  }
+  const resp = await fetch(SITE_URL + "/api/syllabus");
+  if (!resp.ok) throw new Error("syllabus " + resp.status);
+  const body = await resp.json().catch(() => null);
+  /* Shaped here rather than trusted. This crosses a network boundary, and a
+     row missing a title would otherwise print as "undefined" on a document
+     somebody keeps. */
+  const steps: { n: number; title: string }[] = (Array.isArray(body?.steps) ? body.steps : [])
+    .filter((s: unknown): s is { n: number; title: string } =>
+      !!s && typeof (s as { title?: unknown }).title === "string" &&
+      (s as { title: string }).title.trim().length > 0)
+    .map((s: { n: number; title: string }) => ({ n: Number(s.n), title: s.title.trim() }));
   /* Refusing beats guessing. A certificate that quietly lists a stale or empty
      syllabus is the exact failure reading it from the course was meant to
-     prevent, and the claim is released so a later attempt can succeed. */
-  if (!steps.length) throw new Error("no syllabus found on the course page");
-  syllabusCache = steps.sort((a, b) => a.n - b.n);
+     prevent, and the caller releases its claim so a later attempt can succeed. */
+  if (!steps.length) throw new Error("syllabus came back empty");
+  syllabusCache = steps;
   return syllabusCache;
 }
 
