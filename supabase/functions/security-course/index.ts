@@ -13,8 +13,21 @@
      lookup   { email }                   is this a Coconut Hub account?
      progress { email, step, completed }   remember where they are
 
-   Reaching the end sends one email to the team, once per person, ever.
+   Reaching the end sends one email to the team, once per person, ever, and
+   then does one of two things exactly once more:
+
+     the address is a Coconut Hub account  -> the certificate goes to them,
+                                              carrying the name the Hub holds
+     it is not                             -> no certificate, and the three
+                                              addresses in TEAM are told why
+
+   Neither outcome blocks the other. An address the Hub does not know still
+   enrols, still records progress, still finishes, and still produces the team
+   email. The only thing it does not produce is a certificate, because a
+   certificate carrying a name nobody can vouch for is worth less than none.
    ====================================================================== */
+
+import { buildCertificate } from "./certificate.ts";
 
 const SECRET = Deno.env.get("COURSE_API_SECRET") ?? "";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
@@ -38,8 +51,40 @@ const NOTIFY = OVERRIDE.length ? OVERRIDE : TEAM;
    the owners of the material are the one group locked out of it. */
 const ALWAYS_ALLOWED = TEAM;
 const FROM = "Coconut Security <hr@coconutva.com>";
-const COURSE_URL = "https://coconut-security.vercel.app/course/";
+const SITE_URL = "https://coconut-security.vercel.app";
+const COURSE_URL = SITE_URL + "/course/";
 const TOTAL_STEPS = 9;
+
+/* The certificate names every topic, and the topics are only ever written in
+   one place: the course page itself. Fetched and parsed rather than copied,
+   so renaming a step renames it on every certificate issued afterwards with
+   nobody having to remember a second list exists. Cached per warm instance. */
+let syllabusCache: { n: number; title: string }[] | null = null;
+
+async function loadSyllabus() {
+  if (syllabusCache) return syllabusCache;
+  const resp = await fetch(COURSE_URL, { headers: { "Cache-Control": "no-cache" } });
+  if (!resp.ok) throw new Error("course page " + resp.status);
+  const html = await resp.text();
+  const steps: { n: number; title: string }[] = [];
+  const re = /data-step="(\d+)"[\s\S]*?<h2[^>]*>([\s\S]*?)<\/h2>/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html)) !== null) {
+    const title = m[2]
+      .replace(/<[^>]+>/g, "")
+      .replace(/&amp;/g, "&")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&#39;|&rsquo;/g, "’")
+      .trim();
+    if (title) steps.push({ n: Number(m[1]), title });
+  }
+  /* Refusing beats guessing. A certificate that quietly lists a stale or empty
+     syllabus is the exact failure reading it from the course was meant to
+     prevent, and the claim is released so a later attempt can succeed. */
+  if (!steps.length) throw new Error("no syllabus found on the course page");
+  syllabusCache = steps.sort((a, b) => a.n - b.n);
+  return syllabusCache;
+}
 
 const SANS = "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif";
 
@@ -179,6 +224,129 @@ async function sendCompletionEmail(row: {
   return true;
 }
 
+async function resend(payload: Record<string, unknown>, what: string) {
+  if (!RESEND_KEY) {
+    console.error("security-course: RESEND_API_KEY is not set, no " + what + " sent");
+    return false;
+  }
+  const resp = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: "Bearer " + RESEND_KEY },
+    body: JSON.stringify({ from: FROM, ...payload }),
+  });
+  if (!resp.ok) {
+    console.error("security-course: Resend rejected the " + what, resp.status, await resp.text());
+    return false;
+  }
+  return true;
+}
+
+/* The certificate itself, to the person who earned it. The name is the Hub's,
+   not whatever was typed into the enrolment box, which is the whole reason a
+   certificate is only issued when the Hub knows the address. */
+async function sendCertificateEmail(row: {
+  name: string | null;
+  email: string;
+  completed_at: string;
+  certificate_id: string;
+}) {
+  const syllabus = await loadSyllabus();
+  const who = (row.name && row.name.trim()) || row.email;
+  const pdf = await buildCertificate({
+    name: who,
+    completedAt: row.completed_at,
+    certificateId: row.certificate_id,
+    syllabus,
+    // No verification page exists yet. Printing an address that answers 404
+    // invites exactly the doubt the line is meant to settle, so it stays off
+    // until the route is real.
+    verifyUrl: null,
+    assetBase: SITE_URL,
+  });
+
+  let binary = "";
+  for (const byte of pdf) binary += String.fromCharCode(byte);
+  const base64 = btoa(binary);
+
+  const first = who.split(/\s+/)[0];
+  const text = [
+    "Hi " + first + ",",
+    "You have completed Cyber Security Awareness Training. Your certificate is attached.",
+    "It lists every topic you covered and carries the reference " + row.certificate_id + ".",
+    "Thanks for taking the time to do it properly.",
+    "Coconut Virtual Professionals",
+  ].join("\n\n");
+
+  const html =
+    '<div style="font-family: ' + SANS + '; font-size: 15px; line-height: 1.6; color: #1f2937;">' +
+    '<p style="margin: 0 0 16px;">Hi ' + escapeHtml(first) + ",</p>" +
+    '<p style="margin: 0 0 16px;">You have completed <strong>Cyber Security Awareness Training</strong>. ' +
+    "Your certificate is attached.</p>" +
+    '<p style="margin: 0 0 16px;">It lists every topic you covered and carries the reference ' +
+    "<strong>" + escapeHtml(row.certificate_id) + "</strong>.</p>" +
+    '<p style="margin: 0 0 16px;">Thanks for taking the time to do it properly.</p>' +
+    '<p style="margin: 0; color: #6b7280;">Coconut Virtual Professionals</p>' +
+    "</div>";
+
+  return await resend({
+    to: [row.email],
+    subject: "Your Cyber Security Awareness certificate",
+    html,
+    text,
+    attachments: [{
+      filename: "Coconut_Cyber_Security_Awareness_Certificate.pdf",
+      content: base64,
+    }],
+  }, "certificate email");
+}
+
+/* Nobody is in trouble here, and the note says so. Somebody finished the
+   course under an address the Hub does not hold, which is usually a personal
+   email typed instead of a work one. The course counted; the certificate is
+   waiting on someone matching the person to a Hub account. */
+async function sendNoCertificateNotice(row: {
+  name: string | null;
+  email: string;
+  completed_at: string;
+}) {
+  const who = (row.name && row.name.trim()) || row.email;
+  const finished = manilaStamp(row.completed_at);
+
+  const text = [
+    who + " completed Cyber Security Awareness Training, but no certificate was sent.",
+    "The address they used is not a Coconut Hub account, so there is no confirmed name to print on it.",
+    "Email used: " + row.email,
+    "Finished: " + finished,
+    "Their progress is recorded either way, and they did not need to repeat anything.",
+    "If this is someone we know, add or correct the address in Coconut Hub and tell them to open the course again with it. The certificate goes out on the next completion.",
+  ].join("\n\n");
+
+  const html =
+    '<div style="font-family: ' + SANS + '; font-size: 15px; line-height: 1.6; color: #1f2937;">' +
+    '<p style="margin: 0 0 16px;"><strong>' + escapeHtml(who) +
+    "</strong> completed Cyber Security Awareness Training, but no certificate was sent.</p>" +
+    '<p style="margin: 0 0 16px;">The address they used is not a Coconut Hub account, so there is ' +
+    "no confirmed name to print on it.</p>" +
+    '<table style="border-collapse: collapse; margin: 0 0 16px;">' +
+    '<tr><td style="padding: 3px 16px 3px 0; color: #6b7280;">Email used</td>' +
+    '<td style="padding: 3px 0;">' + escapeHtml(row.email) + "</td></tr>" +
+    '<tr><td style="padding: 3px 16px 3px 0; color: #6b7280;">Finished</td>' +
+    '<td style="padding: 3px 0;">' + escapeHtml(finished) + "</td></tr></table>" +
+    '<p style="margin: 0 0 16px;">Their progress is recorded either way, and they did not need to ' +
+    "repeat anything.</p>" +
+    '<p style="margin: 0; font-size: 13px; color: #6b7280;">If this is someone we know, add or ' +
+    "correct the address in Coconut Hub and ask them to open the course again with it. The " +
+    "certificate goes out on the next completion.</p>" +
+    "</div>";
+
+  return await resend({
+    to: NOTIFY,
+    subject: "No certificate sent: " + row.email + " is not in Coconut Hub",
+    html,
+    text,
+  }, "no-certificate notice");
+}
+
 Deno.serve(async (req) => {
   if (req.method !== "POST") return json({ error: "Method not allowed." }, 405);
 
@@ -207,8 +375,21 @@ Deno.serve(async (req) => {
     if (action === "lookup") {
       const user = await findHubUser(email);
       if (!user) {
-        if (!ALWAYS_ALLOWED.includes(email)) return json({ found: false });
+        /* An address the Hub does not hold used to be turned away at the door,
+           which meant a VA who typed their personal email could not take the
+           course at all. It now enrols like anyone else: the material is a
+           security awareness course whose one-pager is already public, so the
+           gate was never protecting much, and the cost of the gate was people
+           not being trained.
 
+           Two things follow, and both are deliberate. There is no certificate
+           at the end, because there is no confirmed name to print. And the
+           endpoint no longer answers "is this a Coconut account" differently
+           depending on the answer, which quietly removes the enumeration
+           problem the old branch had.
+
+           ALWAYS_ALLOWED stays: it is now only about the row being recorded
+           under a name, not about who may enter. */
         await rpc("security_course_record", {
           p_email: email,
           p_name: null,
@@ -216,7 +397,7 @@ Deno.serve(async (req) => {
           p_step: 0,
           p_completed: false,
         });
-        return json({ found: true, email, name: "" });
+        return json({ found: true, email, name: "", hub: false });
       }
 
       // Store the address exactly as the Hub holds it, so one person is one
@@ -230,7 +411,7 @@ Deno.serve(async (req) => {
         p_completed: false,
       });
 
-      return json({ found: true, email: canonical, name: user.name ?? "" });
+      return json({ found: true, email: canonical, name: user.name ?? "", hub: true });
     }
 
     if (action === "progress") {
@@ -267,11 +448,59 @@ Deno.serve(async (req) => {
         }
       }
 
+      /* The certificate, claimed and settled separately from the team email
+         above. Separate because they fail for different reasons and neither
+         should be able to swallow the other: a PDF that will not build must
+         still leave the team notified, and a Resend outage on the team email
+         must not cost somebody their certificate. */
+      let certificate: string | null = null;
+      if (completed) {
+        try {
+          const hubUser = await findHubUser(email);
+          const claim = await rpc("security_course_claim_certificate", {
+            p_email: email,
+            p_hub_matched: Boolean(hubUser),
+          });
+
+          if (claim && claim.completed_at) {
+            let ok = false;
+            if (hubUser) {
+              ok = await sendCertificateEmail({
+                // The Hub's name, not the one typed at enrolment.
+                name: hubUser.name ?? claim.name ?? null,
+                email: claim.email,
+                completed_at: claim.completed_at,
+                certificate_id: claim.certificate_id,
+              });
+              if (ok) certificate = claim.certificate_id;
+            } else {
+              ok = await sendNoCertificateNotice({
+                name: claim.name ?? null,
+                email: claim.email,
+                completed_at: claim.completed_at,
+              });
+            }
+            /* Hand the claim back on failure, exactly as the team email does.
+               Left claimed, a refused send would be indistinguishable from a
+               delivered one for ever. */
+            if (!ok) await rpc("security_course_release_certificate", { p_email: email });
+          }
+        } catch (e) {
+          console.error("security-course: certificate step failed", e);
+          try {
+            await rpc("security_course_release_certificate", { p_email: email });
+          } catch (_e) {
+            console.error("security-course: could not release the certificate claim", email);
+          }
+        }
+      }
+
       return json({
         ok: true,
         last_step: row?.last_step ?? null,
         completed: Boolean(row?.completed_at),
         notified,
+        certificate,
       });
     }
 

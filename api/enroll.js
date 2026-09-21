@@ -122,6 +122,10 @@ export default async function handler(req, res) {
     return res.status(502).json({ error: "Could not reach the course service. Try again shortly." });
   }
 
+  // The service decides who may enter, and it now lets everyone in: an address
+  // the Hub does not hold still takes the course, it just does not earn a
+  // certificate at the end and the team hears about it instead. This branch
+  // stays for a service that fails to answer at all, not for a stranger.
   if (!result || !result.found) {
     return res.status(401).json({ error: UNKNOWN });
   }
